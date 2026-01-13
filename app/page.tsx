@@ -206,21 +206,36 @@ function IjaDronesView({ onBack }: { onBack: () => void }) {
                     </Reveal>
                 </div>
 
+                {/* Lado Direito: Imagem do Drone "Flutuando" */}
                 <div className="flex-1 relative w-full flex justify-center items-center">
-                    <Reveal delay={0.4} className="relative w-full max-w-lg aspect-square">
+                    <Reveal delay={0.4} className="relative w-full max-w-2xl aspect-square">
+                        {/* Efeito de brilho no fundo */}
                         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-sky-100/50 rounded-full blur-3xl -z-10"></div>
-                        <motion.div animate={{ y: [0, -25, 0] }} transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }} className="relative w-full h-full">
-                             <div className="relative w-full h-full bg-slate-100 rounded-3xl flex items-center justify-center border border-slate-200 shadow-xl">
-                                <div className="text-center text-slate-400">
-                                    <Cloud size={80} className="mx-auto mb-4 opacity-50"/>
-                                    <span className="font-bold">Coloque a foto do drone aqui</span>
-                                    <p className="text-xs mt-2">(Imagem PNG sem fundo)</p>
+                        
+                        {/* Movimento de Flutuar */}
+                        <motion.div 
+                            animate={{ y: [0, -25, 0] }} 
+                            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }} 
+                            className="relative w-full h-full"
+                        >
+                            <div className="relative w-full h-full bg-slate-200 rounded-3xl border border-slate-200 shadow-xl overflow-hidden flex items-center justify-center">
+                                
+                                {/* 1. Ícone de Fallback (Aparece se a imagem falhar) */}
+                                <div className="absolute inset-0 flex flex-col items-center justify-center text-slate-400 z-0">
+                                    <Cloud size={64} className="mb-2 opacity-50"/>
+                                    <span className="text-xs font-bold">A imagem não carregou</span>
+                                    <span className="text-[10px]">Verifique se o arquivo está em: public/drone.png</span>
                                 </div>
-                             </div>
-                             <motion.div animate={{ y: [0, 15, 0] }} transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: 1 }} className="absolute -bottom-6 -right-6 bg-white p-4 rounded-2xl shadow-xl border border-slate-100 flex items-center gap-3">
-                                 <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center text-green-600"><CheckCircle2 size={20}/></div>
-                                 <div><div className="text-xs text-slate-500 font-bold uppercase">Status</div><div className="text-sm font-bold text-slate-900">Operação Ativa</div></div>
-                             </motion.div>
+
+                                {/* 2. A Imagem Real (Cobre o ícone se carregar) */}
+                                <Image 
+                                    src="/drone.png"  // <--- CAMINHO SIMPLIFICADO
+                                    alt="Drone IJA System"
+                                    fill 
+                                    className="object-cover z-10" // z-10 garante que fique por cima do texto
+                                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                                />
+                            </div>
                         </motion.div>
                     </Reveal>
                 </div>
@@ -485,7 +500,7 @@ function AgroAzulView({ onNavigateToSystem }: { onNavigateToSystem: () => void }
                 {/* Substitua o trecho antigo por este: */}
                 <div className="relative w-60 h-24">
                     <a href="#"> <Image 
-                        src="/images/logo-agro-azul.png" // Coloque o nome exato do seu arquivo que está na pasta public
+                        src="/images/oceano-azul-logo-sem-fundo.png" // Coloque o nome exato do seu arquivo que está na pasta public
                         alt="Logo AgroAzul"
                         fill
                         className="object-contain object-left" // Garante que a logo não distorça e alinhe à esquerda
@@ -708,7 +723,12 @@ function AgroAzulView({ onNavigateToSystem }: { onNavigateToSystem: () => void }
                         </div>
                         <div className="order-1 md:order-2">
                              <AnimatedImageFrame className="h-80 shadow-lg bg-slate-200">
-                                 <div className="absolute inset-0 flex items-center justify-center text-slate-400">Imagem Lavoura</div>
+                                 <Image 
+                                src="/images/drone-agro.png" // Coloque aqui o nome do seu arquivo que está na pasta public
+                                alt="pulverização agrícola com drones"
+                                fill // Faz a imagem preencher todo o container
+                                className="object-cover" // Garante que a imagem cubra a área sem distorcer (corta o excesso)
+                            />
                              </AnimatedImageFrame>
                         </div>
                     </div>
@@ -718,7 +738,12 @@ function AgroAzulView({ onNavigateToSystem }: { onNavigateToSystem: () => void }
                 <Reveal delay={0.2}>
                     <div className="grid md:grid-cols-2 gap-12 items-center">
                         <AnimatedImageFrame className="h-80 shadow-lg bg-slate-200">
-                             <div className="absolute inset-0 flex items-center justify-center text-slate-400">Imagem Mosquito/Urbana</div>
+                             <Image 
+                                src="/images/drone-dengue.png" // Coloque aqui o nome do seu arquivo que está na pasta public
+                                alt="Controle de Dengue e Monitoramento Urbano"
+                                fill // Faz a imagem preencher todo o container
+                                className="object-cover" // Garante que a imagem cubra a área sem distorcer (corta o excesso)
+                            />
                         </AnimatedImageFrame>
                         <div>
                             <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center text-blue-600 mb-6">
@@ -743,8 +768,9 @@ function AgroAzulView({ onNavigateToSystem }: { onNavigateToSystem: () => void }
          </Container>
       </section>
 
-      {/* BENEFÍCIOS */}
-      <section id="beneficios" className="py-20 bg-white">
+     
+      {/* BENEFÍCIOS - CARDS COM MESMA ALTURA (CORRIGIDO) */}
+      <section id="beneficios" className="py-20 bg-slate-50">
          <Container>
             <div className="text-center max-w-3xl mx-auto mb-16">
                 <Reveal>
@@ -758,7 +784,8 @@ function AgroAzulView({ onNavigateToSystem }: { onNavigateToSystem: () => void }
                 </Reveal>
             </div>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {/* 1. items-stretch: Garante que as colunas do grid tenham a mesma altura */}
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
                 {[
                     { title: "Economia de Tempo", icon: Clock, desc: "Até 60x mais rápido que pulverização tradicional." },
                     { title: "Redução de Custos", icon: DollarSign, desc: "Menos desperdício de insumos e mão de obra." },
@@ -766,128 +793,176 @@ function AgroAzulView({ onNavigateToSystem }: { onNavigateToSystem: () => void }
                     { title: "Precisão Máxima", icon: Target, desc: "Aplicação uniforme em terrenos irregulares." },
                     { title: "Maior Produtividade", icon: TrendingUp, desc: "Melhor aproveitamento dos defensivos." },
                     { title: "Segurança", icon: Users, desc: "Menor exposição do trabalhador a agrotóxicos." },
-                    { title: "Equipe Certificada", icon: Shield, desc: "Pilotos habilitados pela ANAC." },
-                    { title: "Cobertura Regional", icon: MapPin, desc: "Atendimento em toda sua região." },
+                    { title: "Equipe Certificada", icon: Shield, desc: "Pilotos competentes e habilitados pela DECEA." },
+                    { title: "Cobertura Regional", icon: MapPin, desc: "Atendimento em toda sua região, garantindo cobertura completa." },
                 ].map((item, i) => (
-                    <Reveal key={i} delay={i * 0.05} className="h-full">
-                        <div className="h-full p-6 rounded-2xl border border-slate-100 bg-white shadow-sm hover:shadow-md transition-shadow">
-                            <div className="w-10 h-10 bg-blue-50 rounded-lg flex items-center justify-center text-blue-600 mb-4">
+                    // 2. Passamos className="h-full" para o Reveal
+                    // IMPORTANTE: O componente Reveal precisa aceitar e aplicar essa classe na div principal dele
+                    <Reveal key={i} delay={i * 0.05} className="h-full" width="100%">
+                        
+                        {/* 3. Card com h-full e flex flex-col para ocupar tudo e alinhar */}
+                        <div className="h-full p-6 rounded-2xl border border-slate-100 bg-white shadow-sm hover:shadow-md transition-shadow flex flex-col">
+                            <div className="w-10 h-10 bg-blue-50 rounded-lg flex items-center justify-center text-blue-600 mb-4 shrink-0">
                                 <item.icon size={20}/>
                             </div>
                             <h3 className="text-lg font-bold text-slate-900 mb-2">{item.title}</h3>
-                            <p className="text-sm text-slate-500 leading-relaxed">{item.desc}</p>
+                            <p className="text-sm text-slate-500 leading-relaxed flex-1">{item.desc}</p>
                         </div>
                     </Reveal>
                 ))}
             </div>
          </Container>
       </section>
+            
+      {/* CTA AZUL (EQUIPE) - CORREÇÃO DEFINITIVA DE LARGURA */}
+      <section className="py-16 bg-slate-50">
+         
+         {/* Container livre para ocupar toda a largura */}
+         <div className="w-full px-4 md:px-6">
+            
+            {/* ADICIONEI width="100%" AQUI PARA FORÇAR A LARGURA */}
+            <Reveal width="100%" className="relative rounded-[2.5rem] overflow-hidden bg-blue-700 py-16 md:py-20 px-6 shadow-xl mx-auto w-full max-w-[1280px]">
 
-      {/* CTA AZUL ESCURO (EQUIPE) */}
-      <section className="py-20 bg-blue-600 text-white relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-r from-blue-700 to-blue-600"></div>
-          <div className="absolute right-0 top-0 h-full w-1/3 bg-blue-500/20 skew-x-12 translate-x-20"></div>
-          
-          <Container className="relative z-10 text-center">
-              <Reveal>
-                  <h2 className="text-3xl md:text-4xl font-bold mb-6">Equipe Profissional e Certificada</h2>
-                  <p className="text-blue-100 text-lg max-w-2xl mx-auto mb-10">
-                      Conte com especialistas experientes e equipamentos de última geração para garantir os melhores resultados.
-                  </p>
-                  <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                      <button className="px-8 py-3.5 bg-white text-blue-700 rounded-full font-bold hover:bg-blue-50 transition-colors">
-                          Agendar Visita Técnica
-                      </button>
-                      <button className="px-8 py-3.5 border-2 border-blue-400 text-white rounded-full font-bold hover:bg-blue-500 hover:border-blue-500 transition-colors">
-                          Falar com Especialista
-                      </button>
-                  </div>
-              </Reveal>
-          </Container>
+                {/* 1. IMAGEM DE FUNDO */}
+                <div className="absolute inset-0 z-0">
+                    <Image
+                        src="/images/equipe-bg.png" 
+                        alt="Equipe Profissional Agro Azul"
+                        fill
+                        className="object-cover opacity-70 mix-blend-overlay"
+                    />
+                </div>
+
+                {/* 2. OVERLAY GRADIENTE */}
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-800/90 via-blue-700/80 to-blue-800/90 z-10"></div>
+
+                {/* 3. CONTEÚDO */}
+                <div className="relative z-20 text-center text-white max-w-4xl mx-auto">
+                    <h2 className="text-3xl md:text-4xl font-bold mb-4 tracking-tight">
+                        Equipe Profissional e Certificada
+                    </h2>
+                    
+                    <p className="text-blue-50/90 text-base md:text-lg mb-8 leading-relaxed max-w-2xl mx-auto">
+                        Conte com especialistas experientes e equipamentos de última geração para garantir os melhores resultados.
+                    </p>
+                    
+                    <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                        <button className="px-8 py-3 bg-white text-blue-700 rounded-full font-bold text-sm md:text-base hover:bg-blue-50 transition-all shadow-md">
+                            Agendar Visita Técnica
+                        </button>
+                        
+                        <button className="px-8 py-3 border border-white text-white rounded-full font-bold text-sm md:text-base hover:bg-white/10 transition-all">
+                            Falar com Especialista
+                        </button>
+                    </div>
+                </div>
+            </Reveal>
+         </div>
       </section>
 
-      {/* FORMULÁRIO DE CONTATO (GRANDE) */}
-      <section id="contato" className="py-20 bg-white">
+      {/* FORMULÁRIO DE CONTATO */}
+      <section id="contato" className="py-24 bg-white">
           <Container>
-              <div className="grid lg:grid-cols-2 gap-16 items-start">
-                  <div>
+              {/* Usei 'items-center' para alinhar verticalmente pelo centro, se preferir topo use 'items-start' */}
+              <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+                  
+                  {/* ESQUERDA: 5 Colunas */}
+                  <div className="lg:col-span-5">
                       <Reveal>
-                          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-blue-600 text-xs font-bold mb-4 border border-blue-100">
+                          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-blue-600 text-xs font-bold mb-6 border border-blue-100">
                               <Mail size={12}/> Entre em Contato
                           </div>
                       </Reveal>
                       <Reveal delay={0.1}>
-                          <h2 className="text-4xl font-bold text-slate-900 mb-4">Solicite um Orçamento <span className="text-blue-600">Sem Compromisso</span></h2>
-                          <p className="text-slate-500 mb-8">Nossa equipe está pronta para atender você e apresentar a melhor solução para suas necessidades.</p>
+                          <h2 className="text-4xl md:text-5xl font-extrabold text-slate-900 mb-6 leading-tight">
+                              Solicite um Orçamento <span className="text-blue-600">Sem Compromisso</span>
+                          </h2>
+                          <p className="text-slate-500 text-lg mb-10 leading-relaxed">
+                              Nossa equipe está pronta para atender você e apresentar a melhor solução para suas necessidades.
+                          </p>
                       </Reveal>
                       
-                      <div className="space-y-6">
+                      <div className="space-y-8">
                           <Reveal delay={0.2}>
-                              <div className="flex items-start gap-4">
-                                  <div className="w-10 h-10 bg-blue-50 rounded-lg flex items-center justify-center text-blue-600 flex-shrink-0"><Mail size={20}/></div>
+                              <div className="flex items-start gap-5">
+                                  <div className="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center text-blue-600 flex-shrink-0 shadow-sm border border-blue-100">
+                                      <Mail size={22}/>
+                                  </div>
                                   <div>
-                                      <h4 className="font-bold text-slate-900">Email</h4>
-                                      <p className="text-slate-500 text-sm">contato@agroazul.com.br</p>
+                                      <h4 className="font-bold text-slate-900 text-lg">Email</h4>
+                                      <p className="text-slate-500 mt-1">contato@agroazul.com.br</p>
                                   </div>
                               </div>
                           </Reveal>
                           <Reveal delay={0.3}>
-                              <div className="flex items-start gap-4">
-                                  <div className="w-10 h-10 bg-blue-50 rounded-lg flex items-center justify-center text-blue-600 flex-shrink-0"><Phone size={20}/></div>
+                              <div className="flex items-start gap-5">
+                                  <div className="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center text-blue-600 flex-shrink-0 shadow-sm border border-blue-100">
+                                      <Phone size={22}/>
+                                  </div>
                                   <div>
-                                      <h4 className="font-bold text-slate-900">WhatsApp</h4>
-                                      <p className="text-slate-500 text-sm">+55 (11) 98765-4321</p>
+                                      <h4 className="font-bold text-slate-900 text-lg">WhatsApp</h4>
+                                      <p className="text-slate-500 mt-1">+55 (11) 98765-4321</p>
                                   </div>
                               </div>
                           </Reveal>
                           <Reveal delay={0.4}>
-                              <div className="flex items-start gap-4">
-                                  <div className="w-10 h-10 bg-blue-50 rounded-lg flex items-center justify-center text-blue-600 flex-shrink-0"><MapPin size={20}/></div>
+                              <div className="flex items-start gap-5">
+                                  <div className="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center text-blue-600 flex-shrink-0 shadow-sm border border-blue-100">
+                                      <MapPin size={22}/>
+                                  </div>
                                   <div>
-                                      <h4 className="font-bold text-slate-900">Localização</h4>
-                                      <p className="text-slate-500 text-sm">São Paulo, Brasil</p>
+                                      <h4 className="font-bold text-slate-900 text-lg">Localização</h4>
+                                      <p className="text-slate-500 mt-1">São Paulo, Brasil</p>
                                   </div>
                               </div>
                           </Reveal>
                       </div>
                   </div>
 
-                  <Reveal delay={0.2} className="bg-slate-50 rounded-3xl p-8 border border-slate-100 shadow-sm w-full">
-                      <form className="space-y-4">
+                  {/* DIREITA: Começa na coluna 8 (Pula 6 e 7) e ocupa 5 colunas */}
+                  {/* bg-slate-50 para destacar do fundo branco, igual Imagem 1 */}
+                  <Reveal delay={0.2} className="lg:col-span-5 lg:col-start-8 w-full bg-slate-50 rounded-[2rem] p-8 md:p-10 border border-slate-100 shadow-xl shadow-slate-200/50">
+                      <form className="space-y-5 w-full">
                           <div>
-                              <label className="block text-xs font-bold text-slate-700 mb-1">Nome Completo</label>
-                              <input type="text" placeholder="Seu nome" className="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition-all"/>
+                              <label className="block text-xs font-bold text-slate-700 mb-2 uppercase tracking-wide">Nome Completo</label>
+                              <input type="text" placeholder="Seu nome" className="w-full px-4 py-3.5 rounded-xl border border-slate-200 text-sm bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 outline-none transition-all placeholder:text-slate-400"/>
                           </div>
+                          
                           <div>
-                              <label className="block text-xs font-bold text-slate-700 mb-1">Email</label>
-                              <input type="email" placeholder="seu@email.com" className="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition-all"/>
+                              <label className="block text-xs font-bold text-slate-700 mb-2 uppercase tracking-wide">Email</label>
+                              <input type="email" placeholder="seu@email.com" className="w-full px-4 py-3.5 rounded-xl border border-slate-200 text-sm bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 outline-none transition-all placeholder:text-slate-400"/>
                           </div>
+                          
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                              <div>
+                                  <label className="block text-xs font-bold text-slate-700 mb-2 uppercase tracking-wide">Telefone</label>
+                                  <input type="tel" placeholder="(00) 00000-0000" className="w-full px-4 py-3.5 rounded-xl border border-slate-200 text-sm bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 outline-none transition-all placeholder:text-slate-400"/>
+                              </div>
+                              <div>
+                                  <label className="block text-xs font-bold text-slate-700 mb-2 uppercase tracking-wide">Interesse</label>
+                                  <select className="w-full px-4 py-3.5 rounded-xl border border-slate-200 text-sm bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 outline-none transition-all text-slate-600 cursor-pointer">
+                                      <option>Selecione...</option>
+                                      <option>Pulverização Agrícola</option>
+                                      <option>Controle de Dengue</option>
+                                      <option>Mapeamento Aéreo</option>
+                                  </select>
+                              </div>
+                          </div>
+                          
                           <div>
-                              <label className="block text-xs font-bold text-slate-700 mb-1">Telefone / WhatsApp</label>
-                              <input type="tel" placeholder="(00) 00000-0000" className="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition-all"/>
+                              <label className="block text-xs font-bold text-slate-700 mb-2 uppercase tracking-wide">Mensagem</label>
+                              <textarea rows={4} placeholder="Conte-nos sobre sua necessidade..." className="w-full px-4 py-3.5 rounded-xl border border-slate-200 text-sm bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 outline-none transition-all placeholder:text-slate-400 resize-none"></textarea>
                           </div>
-                          <div>
-                              <label className="block text-xs font-bold text-slate-700 mb-1">Serviço de Interesse</label>
-                              <select className="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition-all text-slate-600">
-                                  <option>Selecione uma opção</option>
-                                  <option>Pulverização Agrícola</option>
-                                  <option>Controle de Dengue</option>
-                                  <option>Mapeamento Aéreo</option>
-                              </select>
-                          </div>
-                          <div>
-                              <label className="block text-xs font-bold text-slate-700 mb-1">Mensagem</label>
-                              <textarea rows={4} placeholder="Conte-nos sobre sua necessidade..." className="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition-all"></textarea>
-                          </div>
-                          <button className="w-full py-4 bg-blue-600 text-white rounded-xl font-bold hover:bg-blue-700 transition-all shadow-lg shadow-blue-600/20">
+                          
+                          <button className="w-full py-4 bg-blue-600 text-white rounded-xl font-bold hover:bg-blue-700 transition-all shadow-lg shadow-blue-600/25 active:scale-[0.98] mt-2">
                               Enviar Mensagem
                           </button>
                       </form>
                   </Reveal>
+                  
               </div>
           </Container>
       </section>
-
       {/* FOOTER */}
       <footer className="bg-[#0f172a] text-slate-300 pt-20 pb-10">
         <Container>
