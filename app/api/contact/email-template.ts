@@ -86,7 +86,7 @@ function getBrandTheme(origin: string): BrandTheme {
     return {
       name: "IJA Drones",
       logoAlt: "IJA Drones",
-      logoPath: "/images/logo-ija.png",
+      logoPath: "/images/logo-ija-sem-fundo.png",
       greeting: "Ola, Equipe IJA Drones!",
       introTitle: "Novo lead para o IJA System",
       introBody:
