@@ -24,6 +24,18 @@ function getEnvValue(name: string) {
   return process.env[name]?.trim() ?? "";
 }
 
+function resolveRequestBaseUrl(request: Request) {
+  const requestUrl = new URL(request.url);
+  const forwardedHost = request.headers.get("x-forwarded-host")?.trim();
+  const forwardedProto = request.headers.get("x-forwarded-proto")?.trim();
+
+  if (forwardedHost) {
+    return `${forwardedProto || requestUrl.protocol.replace(":", "")}://${forwardedHost}`;
+  }
+
+  return requestUrl.origin;
+}
+
 function resolveRecipient(origin: string) {
   const formRecipients: Record<string, string> = {
     "IJA Drones": getEnvValue("IJA_DRONES_RECIPIENT") || "suporte@ijadrones.com.br",
@@ -114,7 +126,9 @@ export async function POST(request: Request) {
         from: getEnvValue("RESEND_FROM_EMAIL") || DEFAULT_FROM,
         to: [recipient],
         subject: `[${rawOrigin || "Lead do site"}] ${lead.nome}`,
-        html: buildLeadEmailHtml(lead),
+        html: buildLeadEmailHtml(lead, {
+          publicBaseUrl: resolveRequestBaseUrl(request),
+        }),
         text: buildLeadEmailText(lead),
         reply_to: lead.email_cliente,
       }),

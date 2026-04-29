@@ -7,6 +7,10 @@ export type ContactLead = {
   origem: string;
 };
 
+type EmailRenderOptions = {
+  publicBaseUrl?: string;
+};
+
 type BrandContact = {
   label: string;
   value: string;
@@ -16,13 +20,20 @@ type BrandTheme = {
   name: string;
   logoAlt: string;
   logoPath: string;
+  greeting: string;
   introTitle: string;
   introBody: string;
   eyebrow: string;
   accentColor: string;
   accentSoftColor: string;
-  gradientStart: string;
-  gradientEnd: string;
+  pageBackground: string;
+  panelBackground: string;
+  panelBorder: string;
+  textPrimary: string;
+  textMuted: string;
+  heroTextColor: string;
+  heroBackground: string;
+  heroBorder: string;
   footerText: string;
   contacts: BrandContact[];
 };
@@ -46,8 +57,9 @@ function formatMultilineHtml(value: string) {
   return escapeHtml(value).replace(/\r?\n/g, "<br />");
 }
 
-function resolvePublicBaseUrl() {
+function resolvePublicBaseUrl(publicBaseUrl?: string) {
   const explicitUrl =
+    publicBaseUrl?.trim() ||
     process.env.SITE_URL?.trim() ||
     process.env.NEXT_PUBLIC_SITE_URL?.trim() ||
     process.env.RENDER_EXTERNAL_URL?.trim();
@@ -59,14 +71,14 @@ function resolvePublicBaseUrl() {
   return explicitUrl.replace(/\/$/, "");
 }
 
-function resolveLogoUrl(logoPath: string) {
-  const publicBaseUrl = resolvePublicBaseUrl();
+function resolveLogoUrl(logoPath: string, publicBaseUrl?: string) {
+  const resolvedBaseUrl = resolvePublicBaseUrl(publicBaseUrl);
 
-  if (!publicBaseUrl) {
+  if (!resolvedBaseUrl) {
     return "";
   }
 
-  return `${publicBaseUrl}${logoPath}`;
+  return `${resolvedBaseUrl}${logoPath}`;
 }
 
 function getBrandTheme(origin: string): BrandTheme {
@@ -74,15 +86,22 @@ function getBrandTheme(origin: string): BrandTheme {
     return {
       name: "IJA Drones",
       logoAlt: "IJA Drones",
-      logoPath: "/images/logo-ija-sem-fundo.png",
+      logoPath: "/images/logo-ija.png",
+      greeting: "Ola, Equipe IJA Drones!",
       introTitle: "Novo lead para o IJA System",
       introBody:
         "Um novo contato demonstrou interesse na plataforma IJA System. Veja abaixo os dados recebidos e avance com o atendimento.",
-      eyebrow: "NOVO LEAD DO IJA SYSTEM",
+      eyebrow: "NOTIFICACAO DE NOVO LEAD",
       accentColor: "#0284c7",
       accentSoftColor: "#e0f2fe",
-      gradientStart: "#0f172a",
-      gradientEnd: "#0369a1",
+      pageBackground: "#eaf4fb",
+      panelBackground: "#f7fbff",
+      panelBorder: "#d7e9f7",
+      textPrimary: "#0f172a",
+      textMuted: "#475569",
+      heroTextColor: "#e0f2fe",
+      heroBackground: "#0f172a",
+      heroBorder: "#1e293b",
       footerText: "IJA Drones | Software e gestao para operacoes com drones.",
       contacts: [
         { label: "E-mail da equipe", value: "suporte@ijadrones.com.br" },
@@ -95,14 +114,21 @@ function getBrandTheme(origin: string): BrandTheme {
     name: "Oceano Azul",
     logoAlt: "Oceano Azul",
     logoPath: "/images/oceano-azul-logo-sem-fundo.png",
+    greeting: "Ola, Equipe Oceano Azul!",
     introTitle: "Novo lead para a Oceano Azul",
     introBody:
       "Um novo potencial cliente entrou em contato com a equipe Oceano Azul. Confira os dados capturados e siga com o atendimento.",
-    eyebrow: "NOVO LEAD OCEANO AZUL",
+    eyebrow: "NOTIFICACAO DE NOVO LEAD",
     accentColor: "#2563eb",
     accentSoftColor: "#dbeafe",
-    gradientStart: "#102a43",
-    gradientEnd: "#243b53",
+    pageBackground: "#eef4ff",
+    panelBackground: "#f8fbff",
+    panelBorder: "#dbe7ff",
+    textPrimary: "#102a43",
+    textMuted: "#486581",
+    heroTextColor: "#dbeafe",
+    heroBackground: "#102a43",
+    heroBorder: "#243b53",
     footerText: "Oceano Azul | Pulverizacao, controle urbano e servicos com drones.",
     contacts: [
       { label: "E-mail da equipe", value: "contato@oceanoazul.com.br" },
@@ -118,28 +144,47 @@ function renderBrandContacts(contacts: BrandContact[]) {
       (contact) => `
                   <tr>
                     <td style="padding-bottom: 12px;">
-                      <span style="color: #94a3b8; font-size: 12px; font-weight: bold; text-transform: uppercase;">${escapeHtml(contact.label)}</span><br />
-                      <span style="color: #1e293b; font-size: 15px; font-weight: 600;">${escapeHtml(contact.value)}</span>
+                      <span style="color: #64748b; font-size: 12px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.08em;">${escapeHtml(contact.label)}</span><br />
+                      <span style="color: #0f172a; font-size: 15px; font-weight: 600;">${escapeHtml(contact.value)}</span>
                     </td>
                   </tr>`
     )
     .join("");
 }
 
-export function buildLeadEmailHtml(lead: ContactLead) {
+function renderLeadField(label: string, value: string, highlightColor?: string) {
+  return `
+    <tr>
+      <td style="padding-bottom: 14px;">
+        <table border="0" cellpadding="0" cellspacing="0" width="100%">
+          <tr>
+            <td style="padding: 0;">
+              <span style="color: #7b8ba5; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em;">${escapeHtml(label)}</span><br />
+              <span style="color: ${highlightColor ?? "#0f172a"}; font-size: 15px; font-weight: 700; line-height: 1.6;">${escapeHtml(value)}</span>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>`;
+}
+
+export function buildLeadEmailHtml(
+  lead: ContactLead,
+  options: EmailRenderOptions = {}
+) {
   const phone = formatOptionalValue(lead.telefone);
   const interest = formatOptionalValue(lead.interesse);
-  const replyToEmail = encodeURIComponent(lead.email_cliente);
   const brand = getBrandTheme(lead.origem);
-  const logoUrl = resolveLogoUrl(brand.logoPath);
+  const logoUrl = resolveLogoUrl(brand.logoPath, options.publicBaseUrl);
   const logoMarkup = logoUrl
     ? `<img
                   src="${escapeHtml(logoUrl)}"
                   alt="${escapeHtml(brand.logoAlt)}"
-                  width="200"
-                  style="display: block; border: 0; max-height: 60px; width: auto; margin-bottom: 15px;"
+                  width="184"
+                  style="display: block; border: 0; max-height: 56px; width: auto;"
                 />`
-    : `<div style="margin-bottom: 15px; color: #ffffff; font-size: 24px; font-weight: 700;">${escapeHtml(brand.name)}</div>`;
+    : `<div style="color: #ffffff; font-size: 24px; font-weight: 700; letter-spacing: 0.02em;">${escapeHtml(brand.name)}</div>`;
+  const replyToEmail = escapeHtml(lead.email_cliente);
 
   return `<!DOCTYPE html>
 <html lang="pt-BR">
@@ -147,93 +192,101 @@ export function buildLeadEmailHtml(lead: ContactLead) {
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body style="margin: 0; padding: 0; background-color: #f0f4f8; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
-    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="padding: 40px 10px;">
+  <body style="margin: 0; padding: 0; background-color: ${brand.pageBackground}; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="${brand.pageBackground}" style="padding: 40px 10px; background-color: ${brand.pageBackground};">
       <tr>
         <td align="center">
-          <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px; background-color: #ffffff; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05); border: 1px solid #e1e8f0;">
+          <table border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff" style="max-width: 640px; background-color: #ffffff; border-radius: 22px; overflow: hidden; box-shadow: 0 18px 45px rgba(15, 23, 42, 0.08); border: 1px solid ${brand.panelBorder};">
             <tr>
-              <td align="center" style="background: linear-gradient(135deg, ${brand.gradientStart} 0%, ${brand.gradientEnd} 100%); padding: 45px 30px;">
-                ${logoMarkup}
-                <p style="margin: 5px 0 0 0; color: ${brand.accentSoftColor}; font-size: 13px; letter-spacing: 1px; font-weight: bold;">
-                  ${escapeHtml(brand.eyebrow)}
-                </p>
+              <td style="padding: 0;">
+                <table border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff" style="background-color: #ffffff;">
+                  <tr>
+                    <td style="padding: 12px 0 0 0; line-height: 12px; font-size: 12px;">
+                      <div style="height: 6px; background-color: ${brand.accentColor};"></div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td align="center" style="padding: 34px 30px 10px 30px;">
+                      ${logoMarkup}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td align="center" style="padding: 6px 30px 28px 30px;">
+                      <span style="display: inline-block; color: #c4dbff; font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em;">${escapeHtml(
+                        brand.eyebrow
+                      )}</span>
+                    </td>
+                  </tr>
+                </table>
               </td>
             </tr>
             <tr>
-              <td style="padding: 40px 35px;">
-                <h2 style="margin: 0 0 20px 0; color: #1e293b; font-size: 22px; font-weight: 700;">
-                  ${escapeHtml(brand.introTitle)}
-                </h2>
-                <p style="margin: 0 0 30px 0; color: #64748b; font-size: 16px; line-height: 1.6;">
+              <td style="padding: 8px 28px 20px 28px;">
+                <h1 style="margin: 0 0 18px 0; color: ${brand.textPrimary}; font-size: 33px; line-height: 1.15; font-weight: 800;">${escapeHtml(
+                  brand.greeting
+                )}</h1>
+                <p style="margin: 0 0 22px 0; color: ${brand.textMuted}; font-size: 16px; line-height: 1.8; max-width: 520px;">
                   ${escapeHtml(brand.introBody)}
                 </p>
 
-                <table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #f8fafc; border-radius: 12px; padding: 25px; border: 1px solid #f1f5f9;">
+                <table border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="${brand.panelBackground}" style="background-color: ${brand.panelBackground}; border-radius: 18px; padding: 24px; border: 1px solid ${brand.panelBorder};">
                   <tr>
-                    <td style="padding-bottom: 15px;">
-                      <span style="color: #94a3b8; font-size: 12px; font-weight: bold; text-transform: uppercase;">Nome do lead</span><br />
-                      <span style="color: #1e293b; font-size: 16px; font-weight: 600;">${escapeHtml(lead.nome)}</span>
+                    <td style="padding-bottom: 12px;">
+                      <span style="display: inline-block; color: ${brand.accentColor}; font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em;">Detalhes capturados</span>
                     </td>
                   </tr>
-                  <tr>
-                    <td style="padding-bottom: 15px;">
-                      <span style="color: #94a3b8; font-size: 12px; font-weight: bold; text-transform: uppercase;">E-mail de contato</span><br />
-                      <span style="color: ${brand.accentColor}; font-size: 16px; font-weight: 600;">${escapeHtml(lead.email_cliente)}</span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td style="padding-bottom: 15px;">
-                      <span style="color: #94a3b8; font-size: 12px; font-weight: bold; text-transform: uppercase;">WhatsApp / Telefone</span><br />
-                      <span style="color: #1e293b; font-size: 16px; font-weight: 600;">${escapeHtml(phone)}</span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td style="padding-bottom: 15px;">
-                      <span style="color: #94a3b8; font-size: 12px; font-weight: bold; text-transform: uppercase;">Interesse</span><br />
-                      <span style="color: #1e293b; font-size: 16px; font-weight: 600;">${escapeHtml(interest)}</span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td style="padding-bottom: 15px;">
-                      <span style="color: #94a3b8; font-size: 12px; font-weight: bold; text-transform: uppercase;">Origem do formulario</span><br />
-                      <span style="color: #1e293b; font-size: 16px; font-weight: 600;">${escapeHtml(lead.origem)}</span>
-                    </td>
-                  </tr>
+                  ${renderLeadField("Nome do lead", lead.nome)}
+                  ${renderLeadField("E-mail de contato", lead.email_cliente, brand.accentColor)}
+                  ${renderLeadField("WhatsApp / Telefone", phone)}
+                  ${renderLeadField("Interesse", interest)}
+                  ${renderLeadField("Origem do formulario", lead.origem)}
                   <tr>
                     <td>
-                      <span style="color: #94a3b8; font-size: 12px; font-weight: bold; text-transform: uppercase;">Mensagem recebida</span><br />
-                      <div style="margin-top: 8px; color: #475569; font-size: 15px; line-height: 1.6; padding: 15px; background-color: #ffffff; border-radius: 8px; border: 1px solid #e2e8f0;">
+                      <table border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff" style="background-color: #ffffff; border: 1px solid #dbe7f0; border-radius: 10px;">
+                        <tr>
+                          <td style="padding: 16px 18px;">
+                            <span style="color: #7b8ba5; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em;">Mensagem recebida</span>
+                            <div style="margin-top: 10px; color: ${brand.textMuted}; font-size: 15px; line-height: 1.8; background-color: #ffffff; border-radius: 8px;">
                         ${formatMultilineHtml(lead.mensagem)}
-                      </div>
+                            </div>
+                          </td>
+                        </tr>
+                      </table>
                     </td>
                   </tr>
                 </table>
 
-                <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-top: 24px; background-color: #ffffff; border-radius: 12px; padding: 22px; border: 1px solid #e2e8f0;">
+                <table border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff" style="margin-top: 22px; background-color: #ffffff; border-radius: 18px; padding: 22px; border: 1px solid ${brand.panelBorder};">
                   <tr>
-                    <td style="padding-bottom: 14px;">
-                      <span style="color: #94a3b8; font-size: 12px; font-weight: bold; text-transform: uppercase;">Canal da marca</span><br />
-                      <span style="color: #1e293b; font-size: 16px; font-weight: 700;">${escapeHtml(brand.name)}</span>
+                    <td style="padding-bottom: 14px; border-bottom: 1px solid #e2e8f0;">
+                      <span style="color: ${brand.accentColor}; font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em;">Canal da marca</span><br />
+                      <span style="color: ${brand.textPrimary}; font-size: 18px; font-weight: 800; line-height: 1.6;">${escapeHtml(brand.name)}</span>
                     </td>
                   </tr>
+                  <tr><td style="height: 14px; line-height: 14px; font-size: 14px;">&nbsp;</td></tr>
                   ${renderBrandContacts(brand.contacts)}
                 </table>
 
-                <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-top: 35px;">
+                <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-top: 30px;">
                   <tr>
                     <td align="center">
-                      <a href="mailto:${replyToEmail}" style="background-color: ${brand.accentColor}; color: #ffffff; padding: 16px 32px; text-decoration: none; border-radius: 10px; font-weight: bold; font-size: 16px; display: inline-block; box-shadow: 0 4px 6px rgba(37, 99, 235, 0.2);">
-                        Responder via e-mail
-                      </a>
+                      <table border="0" cellpadding="0" cellspacing="0">
+                        <tr>
+                          <td align="center" bgcolor="${brand.accentColor}" style="background-color: ${brand.accentColor}; border-radius: 10px; box-shadow: 0 12px 24px rgba(2, 132, 199, 0.18);">
+                            <a href="mailto:${replyToEmail}" style="background-color: ${brand.accentColor}; color: #ffffff; padding: 16px 34px; text-decoration: none; border-radius: 10px; font-weight: 800; font-size: 15px; display: inline-block;">
+                              Responder via e-mail
+                            </a>
+                          </td>
+                        </tr>
+                      </table>
                     </td>
                   </tr>
                 </table>
               </td>
             </tr>
             <tr>
-              <td style="padding: 0 35px 40px 35px; text-align: center;">
-                <p style="margin: 0; color: #94a3b8; font-size: 12px;">
+              <td style="padding: 0 28px 34px 28px; text-align: center;">
+                <p style="margin: 0; color: #64748b; font-size: 12px; line-height: 1.7;">
                   ${escapeHtml(brand.footerText)}<br />
                   &copy; 2026 ${escapeHtml(brand.name)}
                 </p>
