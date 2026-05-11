@@ -191,10 +191,12 @@ function AnimatedCaseValue({
   value,
   countTo,
   suffix = "",
+  className = "text-4xl text-slate-950",
 }: {
   value: string;
   countTo?: number;
   suffix?: string;
+  className?: string;
 }) {
   const valueRef = React.useRef<HTMLSpanElement | null>(null);
   const [hasStarted, setHasStarted] = React.useState(false);
@@ -249,7 +251,7 @@ function AnimatedCaseValue({
   return (
     <span
       ref={valueRef}
-      className="block text-4xl font-extrabold tracking-tight text-slate-950 tabular-nums"
+      className={`block font-extrabold tracking-tight tabular-nums ${className}`}
     >
       {countTo === undefined ? value : displayValue}
     </span>
@@ -318,6 +320,114 @@ function ServiceCard({
         </ul>
       </div>
     </article>
+  );
+}
+
+function BrazilMapGraphic() {
+  return (
+    <div className="relative mx-auto flex aspect-square w-full max-w-[18rem] items-center justify-center pb-9">
+      <div className="absolute inset-8 rounded-full bg-blue-200/60 blur-3xl" />
+      <Image
+        src="/images/brazil-map.svg"
+        alt="Mapa do Brasil com estados"
+        width={613}
+        height={639}
+        className="relative h-full w-full object-contain drop-shadow-xl"
+      />
+      <div className="absolute bottom-1 left-1/2 -translate-x-1/2 rounded-full border border-blue-100 bg-white/90 px-3 py-1 text-[0.65rem] font-extrabold uppercase tracking-[0.24em] text-blue-700 shadow-sm">
+        Brasil
+      </div>
+    </div>
+  );
+}
+
+function ImpactMetricCard({
+  item,
+  index,
+}: {
+  item: {
+    value: string;
+    countTo?: number;
+    suffix?: string;
+    label: string;
+    description: string;
+    icon: React.ComponentType<{ size?: number; className?: string }>;
+  };
+  index: number;
+}) {
+  return (
+    <Reveal delay={index * 0.06} width="100%" className="h-full">
+      <article className="group relative isolate flex h-full min-h-[18rem] flex-col overflow-hidden rounded-3xl border border-blue-100 bg-white p-6 text-slate-900 shadow-sm shadow-blue-950/5 transition-all duration-300 hover:-translate-y-1 hover:border-blue-200 hover:shadow-xl hover:shadow-blue-950/10 md:p-7">
+        <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top_right,rgba(37,99,235,0.10),transparent_42%)] opacity-80" />
+        <div className="mb-7 flex items-center justify-between">
+          <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-50 text-blue-600 transition-colors group-hover:bg-blue-600 group-hover:text-white">
+            <item.icon size={23} />
+          </div>
+          <span className="text-xs font-extrabold tracking-[0.2em] text-blue-100">
+            0{index + 1}
+          </span>
+        </div>
+        <AnimatedCaseValue
+          value={item.value}
+          countTo={item.countTo}
+          suffix={item.suffix}
+          className="text-5xl leading-none text-slate-950 md:text-6xl"
+        />
+        <span className="mt-3 text-sm font-extrabold uppercase tracking-[0.16em] text-blue-600">
+          {item.label}
+        </span>
+        <p className="mt-auto pt-8 text-sm leading-relaxed text-slate-600">
+          {item.description}
+        </p>
+      </article>
+    </Reveal>
+  );
+}
+
+function TerritorialImpactCard({
+  item,
+}: {
+  item: {
+    value: string;
+    label: string;
+    description: string;
+  };
+}) {
+  return (
+    <Reveal delay={0.18} width="100%" className="h-full">
+      <article className="relative isolate flex h-full min-h-[32rem] flex-col overflow-hidden rounded-[2rem] border border-blue-100 bg-white p-7 text-slate-900 shadow-xl shadow-blue-950/10 md:p-8">
+        <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_25%_18%,rgba(37,99,235,0.13),transparent_30%),linear-gradient(180deg,#ffffff_0%,#eef6ff_100%)]" />
+        <div className="mb-6 flex items-center justify-between gap-4">
+          <div>
+            <span className="text-xs font-extrabold uppercase tracking-[0.2em] text-blue-600">
+              {item.label}
+            </span>
+            <h3 className="mt-2 text-4xl font-extrabold tracking-tight md:text-5xl">
+              {item.value}
+            </h3>
+          </div>
+          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-blue-50 text-blue-600">
+            <MapPin size={24} />
+          </div>
+        </div>
+
+        <BrazilMapGraphic />
+
+        <p className="mt-auto pt-6 text-sm leading-relaxed text-slate-600">
+          {item.description}
+        </p>
+        <div className="mt-5 flex flex-wrap gap-2">
+          {["Agro", "Cidades", "Energia", "Infraestrutura"].map((area) => (
+            <span
+              key={area}
+              className="rounded-full border border-blue-100 bg-blue-50 px-3 py-1 text-xs font-bold text-blue-700"
+            >
+              {area}
+            </span>
+          ))}
+        </div>
+      </article>
+    </Reveal>
   );
 }
 
@@ -677,6 +787,8 @@ export default function OceanoLandingPage({
       href: "#contato-oceano",
     },
   ];
+  const operationalNumbers = caseNumbers.slice(0, 3);
+  const territorialNumber = caseNumbers[3];
 
   React.useEffect(() => {
     window.scrollTo(0, 0);
@@ -1101,32 +1213,20 @@ export default function OceanoLandingPage({
             </Reveal>
           </div>
 
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            {caseNumbers.map((item, index) => (
-              <Reveal
-                key={item.label}
-                delay={index * 0.06}
-                width="100%"
-                className="h-full"
-              >
-                <article className="group flex h-full min-h-[17rem] flex-col rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition-all hover:-translate-y-1 hover:border-blue-200 hover:shadow-xl">
-                  <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-50 text-blue-600 transition-colors group-hover:bg-blue-600 group-hover:text-white">
-                    <item.icon size={22} />
-                  </div>
-                  <AnimatedCaseValue
-                    value={item.value}
-                    countTo={item.countTo}
-                    suffix={item.suffix}
-                  />
-                  <span className="mt-2 text-sm font-bold uppercase tracking-wide text-blue-600">
-                    {item.label}
-                  </span>
-                  <p className="mt-auto pt-6 text-sm leading-relaxed text-slate-600">
-                    {item.description}
-                  </p>
-                </article>
-              </Reveal>
-            ))}
+          <div className="grid gap-5 lg:grid-cols-[1.45fr_0.9fr] lg:items-stretch">
+            <div className="grid gap-5 md:grid-cols-3">
+              {operationalNumbers.map((item, index) => (
+                <ImpactMetricCard
+                  key={item.label}
+                  item={item}
+                  index={index}
+                />
+              ))}
+            </div>
+
+            {territorialNumber ? (
+              <TerritorialImpactCard item={territorialNumber} />
+            ) : null}
           </div>
         </Container>
       </section>
