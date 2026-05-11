@@ -2,12 +2,7 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-import {
-  motion,
-  useMotionValue,
-  useSpring,
-  useTransform,
-} from "framer-motion";
+import { motion } from "framer-motion";
 import {
   ArrowRight,
   Building2,
@@ -35,6 +30,7 @@ import {
   DollarSign,
   CheckCircle2,
   Wrench,
+  PlayCircle,
 } from "lucide-react";
 
 import { FieldError, useLeadForm } from "../shared/lead-form";
@@ -43,13 +39,126 @@ import {
   Container,
   FeatureCard,
 } from "../ui-kit";
+
+function HeroVideo() {
+  return (
+    <div className="relative mx-auto w-full max-w-[34rem] lg:mx-0 lg:ml-auto">
+      <div className="absolute -inset-6 -z-10 rounded-[3rem] bg-blue-200/40 blur-3xl" />
+      <div className="relative overflow-hidden rounded-[2rem] border border-blue-100 bg-slate-950 shadow-2xl shadow-blue-950/20">
+        <video
+          className="aspect-[9/12] w-full object-cover sm:aspect-[4/5] lg:aspect-[5/6]"
+          src="/videos/oceano-hero.mp4"
+          poster="/images/drones_empresa.jpeg"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+        />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-blue-700/25 via-slate-950/5 to-slate-950/35" />
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-slate-950/70 to-transparent" />
+        <div className="absolute bottom-5 left-5 right-5 flex items-end justify-between gap-4">
+          <div>
+            <div className="text-[0.65rem] font-bold uppercase tracking-wide text-blue-100">
+              Operação em campo
+            </div>
+            <div className="mt-1 max-w-[14rem] text-lg font-extrabold leading-tight text-white">
+              Drones aplicados a missões reais
+            </div>
+          </div>
+          <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/60 bg-white/90 text-blue-700 shadow-lg backdrop-blur">
+            <PlayCircle size={22} />
+          </div>
+        </div>
+      </div>
+
+      <div className="absolute -bottom-5 right-5 z-30 rounded-2xl border border-blue-100 bg-white px-4 py-3 shadow-xl shadow-blue-950/10">
+        <div className="text-[0.65rem] font-bold uppercase tracking-wide text-blue-600">
+          Vídeo institucional
+        </div>
+        <div className="text-sm font-extrabold text-slate-900">
+          Oceano Azul
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function AnimatedCaseValue({
+  value,
+  countTo,
+  suffix = "",
+}: {
+  value: string;
+  countTo?: number;
+  suffix?: string;
+}) {
+  const valueRef = React.useRef<HTMLSpanElement | null>(null);
+  const [hasStarted, setHasStarted] = React.useState(false);
+  const [displayValue, setDisplayValue] = React.useState(
+    countTo ? `0${suffix}` : value
+  );
+
+  React.useEffect(() => {
+    const currentValue = valueRef.current;
+
+    if (!currentValue || countTo === undefined || hasStarted) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setHasStarted(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.5 }
+    );
+
+    observer.observe(currentValue);
+
+    return () => observer.disconnect();
+  }, [countTo, hasStarted]);
+
+  React.useEffect(() => {
+    if (!hasStarted || countTo === undefined) return;
+
+    const duration = 850;
+    const startedAt = performance.now();
+    let animationFrame = 0;
+
+    const animate = (now: number) => {
+      const progress = Math.min((now - startedAt) / duration, 1);
+      const easedProgress = 1 - Math.pow(1 - progress, 3);
+      const currentValue = Math.round(countTo * easedProgress);
+
+      setDisplayValue(`${currentValue.toLocaleString("pt-BR")}${suffix}`);
+
+      if (progress < 1) {
+        animationFrame = requestAnimationFrame(animate);
+      }
+    };
+
+    animationFrame = requestAnimationFrame(animate);
+
+    return () => cancelAnimationFrame(animationFrame);
+  }, [countTo, hasStarted, suffix]);
+
+  return (
+    <span
+      ref={valueRef}
+      className="block text-4xl font-extrabold tracking-tight text-slate-950 tabular-nums"
+    >
+      {countTo === undefined ? value : displayValue}
+    </span>
+  );
+}
+
 export default function OceanoLandingPage({
   onNavigateToAboutOceano,
 }: {
   onNavigateToAboutOceano: () => void;
 }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [isHovering, setIsHovering] = useState(false);
   const [showAllSolutions, setShowAllSolutions] = useState(false);
   const { state, handleSubmit, resetForm } = useLeadForm("Oceano Azul");
 
@@ -248,6 +357,8 @@ export default function OceanoLandingPage({
   const caseNumbers = [
     {
       value: "70.000+",
+      countTo: 70000,
+      suffix: "+",
       label: "hectares agrícolas",
       description:
         "Área atendida em operações agrícolas com drones, pulverização, mapeamento e apoio técnico.",
@@ -255,6 +366,8 @@ export default function OceanoLandingPage({
     },
     {
       value: "1.500+",
+      countTo: 1500,
+      suffix: "+",
       label: "hectares em dengue",
       description:
         "Área coberta em ações urbanas de apoio ao combate e monitoramento da dengue.",
@@ -262,6 +375,8 @@ export default function OceanoLandingPage({
     },
     {
       value: "50.000+",
+      countTo: 50000,
+      suffix: "+",
       label: "voos urbanos",
       description:
         "Missões realizadas em ambientes urbanos para mapeamento, monitoramento e suporte técnico.",
@@ -399,24 +514,6 @@ export default function OceanoLandingPage({
     window.scrollTo(0, 0);
   }, []);
 
-  // Lógica de Física do Drone
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-  const mouseX = useSpring(x, { stiffness: 50, damping: 15 });
-  const mouseY = useSpring(y, { stiffness: 50, damping: 15 });
-  const rotateX = useTransform(mouseY, [-300, 300], [10, -10]);
-  const rotateY = useTransform(mouseX, [-300, 300], [-10, 10]);
-
-  function handleMouseMove(
-    event: React.MouseEvent<HTMLDivElement, MouseEvent>
-  ) {
-    const rect = event.currentTarget.getBoundingClientRect();
-    const centerX = rect.left + rect.width / 2;
-    const centerY = rect.top + rect.height / 2;
-    x.set(event.clientX - centerX);
-    y.set(event.clientY - centerY);
-  }
-
   return (
     <div className="min-h-screen bg-white font-sans text-slate-900">
       {/* NAVBAR */}
@@ -545,7 +642,7 @@ export default function OceanoLandingPage({
       {/* HERO SECTION */}
       <section
         id="inicio"
-        className="pt-32 pb-16 lg:pt-36 lg:pb-24 bg-[linear-gradient(180deg,#ffffff_0%,#f8fbff_100%)] overflow-hidden"
+        className="pt-32 pb-16 lg:pt-36 lg:pb-24 bg-[radial-gradient(circle_at_top_right,rgba(37,99,235,0.16),transparent_34%),linear-gradient(180deg,#f8fbff_0%,#eef6ff_52%,#ffffff_100%)] overflow-hidden"
       >
         <Container>
           <div className="grid lg:grid-cols-[minmax(0,1.05fr)_minmax(380px,0.95fr)] items-center gap-10 lg:gap-16">
@@ -591,138 +688,18 @@ export default function OceanoLandingPage({
                 </div>
               </Reveal>
             </div>
-            <div
-              className="w-full h-[380px] sm:h-[430px] lg:h-[520px] relative flex items-center justify-center cursor-crosshair perspective-1000 group"
-              onMouseMove={handleMouseMove}
-              onMouseEnter={() => setIsHovering(true)}
-              onMouseLeave={() => {
-                setIsHovering(false);
-                x.set(0);
-                y.set(0);
-              }}
-            >
-              <motion.div
-                animate={{
-                  opacity: isHovering ? 0.6 : 0.2,
-                  scale: isHovering ? 1.05 : 1,
-                }}
-                transition={{ duration: 0.8 }}
-                className="absolute inset-0 bg-gradient-to-tr from-blue-100/50 to-transparent rounded-[3rem] -z-10 blur-3xl pointer-events-none"
-              ></motion.div>
-              <motion.div
-                animate={{
-                  opacity: isHovering ? 0.5 : 0.8,
-                  scale: isHovering ? 0.8 : 1,
-                  y: isHovering ? 80 : 60,
-                }}
-                transition={{ duration: 0.5 }}
-                className="absolute top-1/2 left-1/2 -translate-x-1/2 w-64 h-12 bg-blue-900/20 blur-2xl rounded-[100%] pointer-events-none"
-              ></motion.div>
-              <motion.div
-                style={{
-                  x: mouseX,
-                  y: mouseY,
-                  rotateX: rotateX,
-                  rotateY: rotateY,
-                  z: 0,
-                }}
-                animate={{
-                  y: isHovering ? -30 : 0,
-                  scale: isHovering ? 1.1 : 1,
-                }}
-                transition={{ duration: 0.6, ease: "backOut" }}
-                className="relative w-full max-w-md aspect-square z-20 pointer-events-none flex items-center justify-center"
-              >
-                <div className="relative w-80 h-80">
-                  <div
-                    className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 size-[8.5rem] bg-white/95 rounded-3xl shadow-lg shadow-blue-500/30 z-20 flex items-center justify-center border border-blue-100 transition-all duration-500 ${
-                      isHovering ? "brightness-110" : "brightness-95"
-                    }`}
-                  >
-                    <motion.div
-                      animate={
-                        isHovering
-                          ? { scale: [1, 1.1, 1], opacity: [0.5, 1, 0.5] }
-                          : { scale: 1, opacity: 0 }
-                      }
-                      transition={{ duration: 1.5, repeat: Infinity }}
-                      className="w-12 h-12 bg-blue-300 rounded-full blur-md absolute"
-                    ></motion.div>
-                    <Image
-                      src="/images/oceano-azul-logo-sem-fundo.png"
-                      alt="Oceano Azul"
-                      width={112}
-                      height={84}
-                      className="relative z-10 h-auto w-28 drop-shadow-sm"
-                      priority
-                    />
-                  </div>
-                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 border-2 border-blue-200/30 rounded-full z-10"></div>
-                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[110%] h-2 bg-blue-200/30 rotate-45 z-10"></div>
-                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[110%] h-2 bg-blue-200/30 -rotate-45 z-10"></div>
-                  <div className="absolute top-0 left-0 w-36 h-36 flex items-center justify-center">
-                    <motion.div
-                      animate={isHovering ? { rotate: 360 } : { rotate: 0 }}
-                      transition={{
-                        duration: 0.1,
-                        repeat: Infinity,
-                        ease: "linear",
-                      }}
-                      className="w-full h-full rounded-full bg-gradient-to-tr from-blue-400/40 via-transparent to-transparent blur-[2px] border border-blue-300/20"
-                    ></motion.div>
-                  </div>
-                  <div className="absolute top-0 right-0 w-36 h-36 flex items-center justify-center">
-                    <motion.div
-                      animate={isHovering ? { rotate: -360 } : { rotate: 0 }}
-                      transition={{
-                        duration: 0.1,
-                        repeat: Infinity,
-                        ease: "linear",
-                      }}
-                      className="w-full h-full rounded-full bg-gradient-to-tl from-blue-400/40 via-transparent to-transparent blur-[2px] border border-blue-300/20"
-                    ></motion.div>
-                  </div>
-                  <div className="absolute bottom-0 left-0 w-36 h-36 flex items-center justify-center">
-                    <motion.div
-                      animate={isHovering ? { rotate: -360 } : { rotate: 0 }}
-                      transition={{
-                        duration: 0.1,
-                        repeat: Infinity,
-                        ease: "linear",
-                      }}
-                      className="w-full h-full rounded-full bg-gradient-to-br from-blue-400/40 via-transparent to-transparent blur-[2px] border border-blue-300/20"
-                    ></motion.div>
-                    <div
-                      className={`absolute w-3 h-3 bg-blue-100 rounded-full shadow-[0_0_15px_3px_rgba(219,234,254,0.6)] z-30 bottom-10 left-10 transition-opacity duration-500 ${
-                        isHovering ? "opacity-100" : "opacity-0"
-                      }`}
-                    ></div>
-                  </div>
-                  <div className="absolute bottom-0 right-0 w-36 h-36 flex items-center justify-center">
-                    <motion.div
-                      animate={isHovering ? { rotate: 360 } : { rotate: 0 }}
-                      transition={{
-                        duration: 0.1,
-                        repeat: Infinity,
-                        ease: "linear",
-                      }}
-                      className="w-full h-full rounded-full bg-gradient-to-bl from-blue-400/40 via-transparent to-transparent blur-[2px] border border-blue-300/20"
-                    ></motion.div>
-                    <div
-                      className={`absolute w-3 h-3 bg-blue-100 rounded-full shadow-[0_0_15px_3px_rgba(219,234,254,0.6)] z-30 bottom-10 right-10 transition-opacity duration-500 ${
-                        isHovering ? "opacity-100" : "opacity-0"
-                      }`}
-                    ></div>
-                  </div>
-                </div>
-              </motion.div>
-            </div>
+            <Reveal delay={0.25} width="100%">
+              <HeroVideo />
+            </Reveal>
           </div>
         </Container>
       </section>
 
       {/* NOSSAS SOLUÇÕES */}
-      <section id="servicos" className="py-20 bg-slate-50">
+      <section
+        id="servicos"
+        className="py-20 border-t border-blue-100/70 bg-[linear-gradient(180deg,#ffffff_0%,#f3f8ff_100%)]"
+      >
         <Container>
           <div className="text-center max-w-4xl mx-auto mb-16 flex flex-col items-center">
             <Reveal width="100%">
@@ -870,7 +847,10 @@ export default function OceanoLandingPage({
       </section>
 
       {/* FICHA TÉCNICA */}
-      <section id="ficha-tecnica" className="bg-white py-20">
+      <section
+        id="ficha-tecnica"
+        className="bg-white py-20 border-t border-slate-200/70"
+      >
         <Container>
           <div className="mx-auto mb-14 flex max-w-4xl flex-col items-center text-center">
             <Reveal width="100%">
@@ -998,7 +978,10 @@ export default function OceanoLandingPage({
       </section>
 
       {/* CASES E NÚMEROS */}
-      <section id="cases-numeros" className="bg-slate-50 py-20">
+      <section
+        id="cases-numeros"
+        className="py-20 border-t border-blue-100/70 bg-[radial-gradient(circle_at_top_left,rgba(37,99,235,0.10),transparent_30%),linear-gradient(180deg,#f8fbff_0%,#eef6ff_100%)]"
+      >
         <Container>
           <div className="mx-auto mb-14 flex max-w-4xl flex-col items-center text-center">
             <Reveal width="100%">
@@ -1033,9 +1016,11 @@ export default function OceanoLandingPage({
                   <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-50 text-blue-600 transition-colors group-hover:bg-blue-600 group-hover:text-white">
                     <item.icon size={22} />
                   </div>
-                  <strong className="block text-4xl font-extrabold tracking-tight text-slate-950">
-                    {item.value}
-                  </strong>
+                  <AnimatedCaseValue
+                    value={item.value}
+                    countTo={item.countTo}
+                    suffix={item.suffix}
+                  />
                   <span className="mt-2 text-sm font-bold uppercase tracking-wide text-blue-600">
                     {item.label}
                   </span>
@@ -1050,7 +1035,10 @@ export default function OceanoLandingPage({
       </section>
 
       {/* DIFERENCIAIS */}
-      <section id="diferenciais" className="bg-white py-20">
+      <section
+        id="diferenciais"
+        className="bg-white py-20 border-t border-slate-200/70"
+      >
         <Container>
           <div className="text-center max-w-4xl mx-auto mb-16 flex flex-col items-center">
             <Reveal width="100%">
@@ -1088,7 +1076,10 @@ export default function OceanoLandingPage({
       </section>
 
       {/* CURSOS E CAPACITAÇÃO */}
-      <section id="cursos" className="bg-slate-50 py-20">
+      <section
+        id="cursos"
+        className="py-20 border-t border-blue-100/70 bg-[linear-gradient(180deg,#f3f8ff_0%,#ffffff_100%)]"
+      >
         <Container>
           <div className="mx-auto mb-16 flex max-w-5xl flex-col items-center text-center">
             <Reveal width="100%">
@@ -1178,7 +1169,10 @@ export default function OceanoLandingPage({
       </section>
 
       {/* BENEFÍCIOS (CORRIGIDO) */}
-      <section id="beneficios" className="py-20 bg-slate-50">
+      <section
+        id="beneficios"
+        className="py-20 bg-white border-t border-slate-200/70"
+      >
         <Container>
           <div className="text-center max-w-4xl mx-auto mb-16 flex flex-col items-center">
             <Reveal width="100%">
@@ -1254,7 +1248,10 @@ export default function OceanoLandingPage({
       </section>
 
       {/* CTA AZUL */}
-      <section id="equipe" className="py-16 bg-slate-50">
+      <section
+        id="equipe"
+        className="py-16 border-t border-blue-100/70 bg-[linear-gradient(180deg,#ffffff_0%,#f3f8ff_100%)]"
+      >
         <div className="w-full px-4 md:px-6">
           <Reveal
             width="100%"
@@ -1295,7 +1292,10 @@ export default function OceanoLandingPage({
       </section>
 
       {/* FORMULÁRIO DE CONTATO */}
-      <section id="contato-oceano" className="py-24 bg-white">
+      <section
+        id="contato-oceano"
+        className="py-24 border-t border-slate-200/70 bg-[radial-gradient(circle_at_bottom_right,rgba(37,99,235,0.08),transparent_32%),#ffffff]"
+      >
         <Container>
           <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
             <div className="lg:col-span-5">

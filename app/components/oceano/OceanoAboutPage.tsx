@@ -75,7 +75,7 @@ export default function OceanoAboutPage({
       </nav>
 
       {/* HEADER INSTITUCIONAL */}
-      <section className="pt-40 pb-20 bg-slate-50">
+      <section className="pt-40 pb-20 bg-[radial-gradient(circle_at_top_right,rgba(37,99,235,0.14),transparent_34%),linear-gradient(180deg,#f8fbff_0%,#eef6ff_58%,#ffffff_100%)]">
         <Container>
           <div className="max-w-4xl mx-auto text-center flex flex-col items-center">
             <Reveal width="100%">
@@ -102,7 +102,7 @@ export default function OceanoAboutPage({
       </section>
 
       {/* ESTATÍSTICAS & HISTÓRIA */}
-      <Section>
+      <Section className="bg-white border-t border-slate-200/70">
         <Container>
           <div className="grid md:grid-cols-2 gap-16 items-center">
             <Reveal>
@@ -163,7 +163,10 @@ export default function OceanoAboutPage({
       </Section>
 
       {/* MISSÃO, VISÃO E VALORES */}
-      <section id="missao-visao-valores" className="py-20 bg-slate-50">
+      <section
+        id="missao-visao-valores"
+        className="py-20 border-t border-blue-100/70 bg-[linear-gradient(180deg,#ffffff_0%,#f3f8ff_100%)]"
+      >
         <Container>
           <div className="max-w-4xl mx-auto text-center mb-14 flex flex-col items-center">
             <Reveal width="100%">
@@ -206,7 +209,7 @@ export default function OceanoAboutPage({
       </section>
 
       {/* ÁREAS DE ATUAÇÃO */}
-      <section className="py-20 bg-slate-900 text-white">
+      <section className="py-20 bg-slate-900 text-white border-t border-slate-800">
         <Container>
           <div className="text-center mb-16 flex flex-col items-center">
             <Reveal width="100%">
@@ -244,7 +247,7 @@ export default function OceanoAboutPage({
       </section>
 
       {/* SERVIÇOS DETALHADOS */}
-      <Section>
+      <Section className="border-t border-blue-100/70 bg-[linear-gradient(180deg,#f8fbff_0%,#ffffff_100%)]">
         <Container>
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
@@ -306,7 +309,7 @@ export default function OceanoAboutPage({
       </Section>
 
       {/* CTA CONTATO */}
-      <section className="py-20 bg-blue-600 text-white">
+      <section className="py-20 bg-[linear-gradient(135deg,#2563eb_0%,#1d4ed8_55%,#0f3fa8_100%)] text-white border-t border-blue-400/30">
         <Container>
           <div className="flex flex-col md:flex-row items-center justify-between gap-8">
             <div>
