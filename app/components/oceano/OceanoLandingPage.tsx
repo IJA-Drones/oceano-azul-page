@@ -32,6 +32,7 @@ import {
   DollarSign,
   CheckCircle2,
   Wrench,
+  Wifi,
 } from "lucide-react";
 
 import { FieldError, useLeadForm } from "../shared/lead-form";
@@ -110,6 +111,52 @@ function HeroVideo() {
         />
       </div>
     </div>
+  );
+}
+
+function StarlinkDifferentialCard() {
+  return (
+    <Reveal delay={0.18} className="md:col-span-2 lg:col-span-3" width="100%">
+      <article className="grid overflow-hidden rounded-3xl border border-blue-100 bg-slate-950 shadow-2xl shadow-blue-950/15 lg:grid-cols-[0.95fr_1.35fr]">
+        <div className="relative isolate flex flex-col justify-center p-7 text-white md:p-9 lg:p-10">
+          <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top_left,rgba(59,130,246,0.34),transparent_34%)]" />
+          <span className="mb-5 inline-flex w-fit items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3 py-1 text-xs font-extrabold uppercase tracking-wider text-blue-50">
+            <Wifi size={13} /> Conectividade em campo
+          </span>
+          <h3 className="max-w-xl text-2xl font-extrabold leading-tight tracking-tight md:text-3xl">
+            Starlink como diferencial para operações em áreas remotas
+          </h3>
+          <p className="mt-5 max-w-xl text-sm leading-relaxed text-blue-50/85 md:text-base">
+            A internet via satélite amplia a comunicação da equipe, o suporte
+            técnico e o envio de dados operacionais mesmo em regiões com baixa
+            cobertura de sinal.
+          </p>
+          <div className="mt-7 grid gap-3 text-sm text-blue-50/90 sm:grid-cols-3">
+            {["Conexão estável", "Suporte remoto", "Dados em campo"].map(
+              (item) => (
+                <span
+                  key={item}
+                  className="rounded-2xl border border-white/10 bg-white/10 px-3 py-2 font-bold"
+                >
+                  {item}
+                </span>
+              )
+            )}
+          </div>
+        </div>
+        <div className="bg-slate-900 p-4 md:p-5">
+          <div className="overflow-hidden rounded-2xl border border-white/10 bg-black">
+            <video
+              className="aspect-video w-full bg-black object-contain"
+              src="/videos/vídeo-informatico-starlink.mp4"
+              controls
+              playsInline
+              preload="metadata"
+            />
+          </div>
+        </div>
+      </article>
+    </Reveal>
   );
 }
 
@@ -1255,6 +1302,7 @@ export default function OceanoLandingPage({
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
+            <StarlinkDifferentialCard />
             {differentiators.map((item, index) => (
               <FeatureCard
                 key={item.title}
