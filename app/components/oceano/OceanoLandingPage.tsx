@@ -865,22 +865,51 @@ export default function OceanoLandingPage({
   ];
   const coursePartnershipHighlights = [
     {
-      title: "Oceano Azul em campo",
+      title: "Formação de mão de obra qualificada",
       description:
-        "Experiência operacional com drones, aplicações técnicas e demandas reais de campo.",
-      icon: Bot,
+        "Capacitação prática para preparar profissionais para as novas demandas do mercado de drones.",
+      icon: Users,
     },
     {
-      title: "FUPAI em educação",
+      title: "Inovação e desenvolvimento aplicado",
       description:
-        "Base institucional para estruturar conhecimento, capacitação e formação profissional.",
-      icon: GraduationCap,
+        "Tecnologia, operação e conhecimento trabalhando juntos para criar soluções mais eficientes.",
+      icon: Sparkles,
     },
     {
-      title: "Impacto aplicado",
+      title: "Pesquisa contínua em novas tecnologias",
       description:
-        "Cursos conectados a agricultura, cidades, saúde pública, infraestrutura e inovação.",
-      icon: Building2,
+        "Estudo permanente de novas ferramentas, métodos e soluções para agricultura, cidades e infraestrutura.",
+      icon: Microscope,
+    },
+    {
+      title: "Empresa orientada por princípios ESG",
+      description:
+        "Atuação com foco em sustentabilidade, segurança, responsabilidade social e qualidade operacional.",
+      icon: Leaf,
+    },
+  ];
+  const esgPillars = [
+    {
+      label: "Social",
+      title: "Formação, segurança e valorização de pessoas",
+      description:
+        "Capacitamos mão de obra e reduzimos a exposição de equipes em operações críticas, fortalecendo uma atuação mais segura e profissional.",
+      icon: Users,
+    },
+    {
+      label: "Econômico",
+      title: "Mais eficiência para produtores, empresas e cidades",
+      description:
+        "A aplicação com drones contribui para reduzir desperdícios, otimizar insumos, ganhar tempo e melhorar a tomada de decisão.",
+      icon: TrendingUp,
+    },
+    {
+      label: "Biotecnologia",
+      title: "Drones como ponte para novas soluções no campo",
+      description:
+        "Avançamos em pesquisas e aplicações conectadas a biológicos, manejo sustentável e tecnologias que apoiam o futuro da agricultura.",
+      icon: Microscope,
     },
   ];
   const footerServices = [
@@ -1148,7 +1177,7 @@ export default function OceanoLandingPage({
       {/* NOSSAS SOLUÇÕES */}
       <section
         id="servicos"
-        className="py-20 border-t border-blue-100/70 bg-[linear-gradient(180deg,#ffffff_0%,#f3f8ff_100%)]"
+        className="py-20 border-t border-blue-100/70 bg-[linear-gradient(180deg,#f3f8ff_0%,#ffffff_100%)]"
       >
         <Container>
           <div className="text-center max-w-4xl mx-auto mb-16 flex flex-col items-center">
@@ -1357,7 +1386,7 @@ export default function OceanoLandingPage({
       {/* DIFERENCIAIS */}
       <section
         id="diferenciais"
-        className="bg-white py-20 border-t border-slate-200/70"
+        className="py-20 border-t border-blue-100/70 bg-[linear-gradient(180deg,#f3f8ff_0%,#ffffff_100%)]"
       >
         <Container>
           <div className="text-center max-w-4xl mx-auto mb-16 flex flex-col items-center">
@@ -1392,6 +1421,63 @@ export default function OceanoLandingPage({
                 delay={index * 0.05}
               />
             ))}
+          </div>
+        </Container>
+      </section>
+
+      {/* ESG */}
+      <section
+        id="esg"
+        className="border-t border-slate-200/70 bg-white py-16"
+      >
+        <Container>
+          <div className="grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
+            <div>
+              <Reveal>
+                <span className="mb-5 inline-flex items-center gap-2 rounded-full border border-blue-100 bg-blue-50 px-3 py-1 text-xs font-extrabold uppercase tracking-wider text-blue-700">
+                  <Leaf size={13} /> Princípios ESG
+                </span>
+              </Reveal>
+              <Reveal delay={0.08}>
+                <h2 className="text-3xl font-extrabold leading-tight tracking-tight text-slate-950 md:text-5xl">
+                  Impacto social, econômico e avanço rumo à biotecnologia
+                </h2>
+              </Reveal>
+              <Reveal delay={0.14}>
+                <p className="mt-5 max-w-xl text-base leading-relaxed text-slate-600">
+                  A Oceano Azul aplica tecnologia com drones para gerar valor
+                  além da operação: formando profissionais, aumentando a
+                  eficiência dos clientes e apoiando soluções mais sustentáveis
+                  para o futuro do campo.
+                </p>
+              </Reveal>
+            </div>
+
+            <div className="grid gap-4 md:grid-cols-3">
+              {esgPillars.map((pillar, index) => (
+                <Reveal
+                  key={pillar.label}
+                  delay={0.08 + index * 0.05}
+                  width="100%"
+                  className="h-full"
+                >
+                  <article className="group relative flex h-full min-h-[19rem] flex-col overflow-hidden rounded-3xl border border-slate-200/60 bg-white p-8 shadow-sm transition-all hover:-translate-y-1 hover:border-sky-200/50 hover:shadow-xl">
+                    <div className="mb-6 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-sky-50 text-sky-600 transition-colors group-hover:bg-sky-500 group-hover:text-white">
+                      <pillar.icon size={21} />
+                    </div>
+                    <span className="mb-3 text-xs font-bold uppercase tracking-wide text-slate-400">
+                      {pillar.label}
+                    </span>
+                    <h3 className="mb-3 min-h-[3.5rem] text-xl font-bold text-slate-900">
+                      {pillar.title}
+                    </h3>
+                    <p className="mt-auto leading-relaxed text-slate-600">
+                      {pillar.description}
+                    </p>
+                  </article>
+                </Reveal>
+              ))}
+            </div>
           </div>
         </Container>
       </section>
@@ -1444,7 +1530,7 @@ export default function OceanoLandingPage({
                   esse conhecimento em capacitação estruturada e oportunidades.
                 </p>
               </div>
-              <div className="grid gap-4 p-6 md:grid-cols-3 md:p-7">
+              <div className="grid gap-4 p-6 sm:grid-cols-2 xl:grid-cols-4 md:p-7">
                 {coursePartnershipHighlights.map((item) => (
                   <div
                     key={item.title}
