@@ -9,6 +9,7 @@ import {
   Building2,
   CalendarDays,
   GraduationCap,
+  Handshake,
   BookOpen,
   Menu,
   X,
@@ -725,9 +726,9 @@ export default function OceanoLandingPage({
   ];
   const courseCards = [
     {
-      title: "Curso Básico de Pilotagem de Drones",
+      title: "Curso Profissional de Pilotagem de Drones",
       description:
-        "Formação introdutória para operação segura, boas práticas de voo, preparação de equipamento e noções essenciais para pilotos iniciantes.",
+        "Formação profissional para operação segura, boas práticas de voo, preparação de equipamento e noções essenciais para pilotos iniciantes.",
       highlights: [
         "Noções de segurança e preparação para voo",
         "Boas práticas de pilotagem e operação em campo",
@@ -735,6 +736,26 @@ export default function OceanoLandingPage({
       ],
       icon: GraduationCap,
       image: "/images/curso_piloto.jpeg",
+    },
+  ];
+  const coursePartnershipHighlights = [
+    {
+      title: "Formação profissional",
+      description:
+        "Capacitação prática para preparar pessoas e equipes para novas demandas tecnológicas.",
+      icon: GraduationCap,
+    },
+    {
+      title: "Cidades tecnológicas",
+      description:
+        "Conhecimento aplicado a soluções urbanas, inteligentes e conectadas ao futuro.",
+      icon: Building2,
+    },
+    {
+      title: "Impacto social",
+      description:
+        "Tecnologia e inovação como caminho para ampliar oportunidades em um novo Brasil.",
+      icon: Users,
     },
   ];
   const footerServices = [
@@ -1256,23 +1277,67 @@ export default function OceanoLandingPage({
           <div className="mx-auto mb-16 flex max-w-5xl flex-col items-center text-center">
             <Reveal width="100%">
               <span className="mb-6 inline-flex items-center gap-2 rounded-full border border-blue-100 bg-white px-3 py-1 text-xs font-bold uppercase tracking-wider text-blue-600">
-                <BookOpen size={12} /> Cursos e capacitação
+                <Handshake size={12} /> Aliança estratégica em favor da educação
               </span>
             </Reveal>
             <Reveal delay={0.1} width="100%">
-              <h2 className="mb-8 text-4xl font-extrabold leading-[0.95] tracking-tight text-slate-900 md:text-6xl">
-                Curso Básico de <br />
-                <span className="text-blue-600">Pilotagem de Drones</span>
+              <h2 className="mb-8 text-4xl font-extrabold leading-[0.98] tracking-tight text-slate-900 md:text-6xl">
+                Dois gigantes se unem para formar e capacitar{" "}
+                <span className="text-blue-600">para o futuro</span>
               </h2>
             </Reveal>
             <Reveal delay={0.2}>
               <p className="mx-auto max-w-3xl text-lg leading-relaxed text-slate-600 md:text-xl">
-                A Oceano Azul também atua na capacitação de profissionais e
-                equipes que desejam operar drones com mais segurança,
-                conhecimento técnico e confiança em campo.
+                Da capacitação profissional às cidades tecnológicas e
+                inteligentes: soluções que conectam tecnologia e impacto
+                social.
+              </p>
+            </Reveal>
+            <Reveal delay={0.25}>
+              <p className="mt-5 text-sm font-bold uppercase tracking-wider text-blue-600">
+                Tecnologia, inovação e formação profissional para um novo
+                Brasil.
               </p>
             </Reveal>
           </div>
+
+          <Reveal delay={0.3} width="100%">
+            <div className="mx-auto mb-10 grid max-w-6xl overflow-hidden rounded-3xl border border-blue-100 bg-white shadow-sm md:grid-cols-[1fr_1.4fr]">
+              <div className="flex flex-col justify-center bg-blue-600 p-7 text-white md:p-9">
+                <span className="mb-4 inline-flex w-fit items-center gap-2 rounded-full bg-white/15 px-3 py-1 text-xs font-bold uppercase tracking-wider text-white">
+                  <BookOpen size={12} /> União de forças
+                </span>
+                <h3 className="text-2xl font-extrabold leading-tight md:text-3xl">
+                  Uma parceria para transformar conhecimento em oportunidade.
+                </h3>
+                <p className="mt-4 text-sm leading-relaxed text-blue-50 md:text-base">
+                  A união entre duas grandes empresas amplia o alcance da
+                  formação técnica e fortalece projetos preparados para o futuro
+                  do trabalho, das cidades e da inovação.
+                </p>
+              </div>
+              <div className="grid gap-4 p-6 md:grid-cols-3 md:p-7">
+                {coursePartnershipHighlights.map((item) => (
+                  <div
+                    key={item.title}
+                    className="rounded-2xl border border-slate-100 bg-slate-50 p-5"
+                  >
+                    <item.icon
+                      size={22}
+                      className="mb-4 text-blue-600"
+                      strokeWidth={1.8}
+                    />
+                    <h4 className="text-sm font-extrabold text-slate-900">
+                      {item.title}
+                    </h4>
+                    <p className="mt-2 text-sm leading-relaxed text-slate-600">
+                      {item.description}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </Reveal>
 
           <div className="mx-auto max-w-6xl">
             {courseCards.map((course, index) => (
