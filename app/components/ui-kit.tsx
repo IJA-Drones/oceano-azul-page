@@ -76,7 +76,7 @@ export function Container({
   className?: string;
 }) {
   return (
-    <div className={`mx-auto w-full max-w-7xl px-6 ${className}`}>
+    <div className={`mx-auto w-full max-w-7xl px-4 sm:px-6 ${className}`}>
       {children}
     </div>
   );
@@ -96,7 +96,7 @@ export function Section({
   return (
     <section
       id={id}
-      className={`py-20 md:py-32 relative overflow-hidden ${className}`}
+      className={`py-16 md:py-24 lg:py-32 relative overflow-hidden ${className}`}
     >
       {children}
     </section>
@@ -118,12 +118,12 @@ export function FeatureCard({
 }) {
   return (
     <Reveal delay={delay} className="h-full" width="100%">
-      <div className="relative flex h-full min-h-[19rem] cursor-default flex-col overflow-hidden rounded-3xl border border-slate-200/60 bg-white p-8 shadow-sm transition-colors duration-300 hover:border-slate-300 hover:bg-slate-50/70">
+      <div className="relative flex h-full min-h-[16rem] cursor-default flex-col overflow-hidden rounded-3xl border border-slate-200/60 bg-white p-6 shadow-sm transition-colors duration-300 hover:border-slate-300 hover:bg-slate-50/70 md:min-h-[19rem] md:p-8">
         <div className="mb-6 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-sky-50 text-sky-600">
           <Icon size={24} />
         </div>
         <div className="flex flex-1 flex-col">
-          <h3 className="mb-3 min-h-[3.5rem] text-xl font-bold text-slate-900">
+          <h3 className="mb-3 text-xl font-bold text-slate-900 md:min-h-[3.5rem]">
             {title}
           </h3>
           <p className="text-slate-600 leading-relaxed">{desc}</p>

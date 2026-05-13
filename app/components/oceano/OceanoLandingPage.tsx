@@ -297,7 +297,7 @@ function AnimatedCaseValue({
   return (
     <span
       ref={valueRef}
-      className={`block whitespace-nowrap font-extrabold tracking-tight tabular-nums ${className}`}
+      className={`block font-extrabold tracking-tight tabular-nums ${className}`}
     >
       {countTo === undefined ? (
         value
@@ -325,10 +325,10 @@ function ServiceCard({
   index: number;
 }) {
   return (
-    <article className="relative isolate flex h-full min-h-[34rem] cursor-default flex-col overflow-hidden rounded-lg border border-slate-200/80 bg-white shadow-sm shadow-blue-950/5 transition-colors duration-300 hover:border-slate-300 hover:bg-slate-50/60">
+    <article className="relative isolate flex h-full min-h-[30rem] cursor-default flex-col overflow-hidden rounded-lg border border-slate-200/80 bg-white shadow-sm shadow-blue-950/5 transition-colors duration-300 hover:border-slate-300 hover:bg-slate-50/60 md:min-h-[34rem]">
       <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top_right,rgba(37,99,235,0.10),transparent_36%)] opacity-80" />
 
-      <div className="relative h-60 overflow-hidden bg-slate-900">
+      <div className="relative h-52 overflow-hidden bg-slate-900 sm:h-60">
         <Image
           src={service.image}
           alt={service.title}
@@ -347,7 +347,7 @@ function ServiceCard({
         </span>
       </div>
 
-      <div className="flex flex-1 flex-col p-6">
+      <div className="flex flex-1 flex-col p-5 sm:p-6">
         <h3 className="mb-3 text-xl font-extrabold leading-tight text-slate-900">
           {service.title}
         </h3>
@@ -407,7 +407,7 @@ function ImpactMetricCard({
 }) {
   return (
     <Reveal delay={index * 0.06} width="100%" className="h-full">
-      <article className="relative isolate flex h-full min-h-[16rem] cursor-default flex-col overflow-hidden rounded-3xl border border-blue-100 bg-white p-6 text-slate-900 shadow-sm shadow-blue-950/5 transition-colors duration-300 hover:border-slate-300 hover:bg-slate-50/60 md:p-7">
+      <article className="relative isolate flex h-full min-h-[16rem] cursor-default flex-col overflow-hidden rounded-3xl border border-blue-100 bg-white p-5 text-slate-900 shadow-sm shadow-blue-950/5 transition-colors duration-300 hover:border-slate-300 hover:bg-slate-50/60 sm:p-6 md:p-7">
         <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top_right,rgba(37,99,235,0.10),transparent_42%)] opacity-80" />
         <div className="mb-7 flex items-center justify-between">
           <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-50 text-blue-600">
@@ -421,7 +421,7 @@ function ImpactMetricCard({
           value={item.value}
           countTo={item.countTo}
           suffix={item.suffix}
-          className="text-[2.8rem] leading-none text-slate-950 sm:text-5xl lg:text-[3.15rem] xl:text-[3.35rem]"
+          className="text-4xl leading-none text-slate-950 sm:text-5xl lg:text-[3.15rem] xl:text-[3.35rem]"
         />
         <span className="mt-3 text-sm font-extrabold uppercase tracking-[0.16em] text-blue-600">
           {item.label}
@@ -1014,13 +1014,12 @@ export default function OceanoLandingPage({
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.6 }}
-        className="fixed top-0 left-0 right-0 z-50 bg-white shadow-sm border-b border-gray-100 h-30"
+        className="fixed left-0 right-0 top-0 z-50 border-b border-gray-100 bg-white shadow-sm"
       >
         <Container>
-          <div className="flex items-center justify-between h-30">
-            <div className="relative w-60 h-24">
+          <div className="flex h-20 items-center justify-between xl:h-24">
+            <div className="relative h-14 w-44 sm:h-16 sm:w-52 xl:h-20 xl:w-60">
               <a href="#">
-                {" "}
                 <Image
                   src="/images/oceano-azul-logo-sem-fundo.png"
                   alt="Logo oeceano azul"
@@ -1029,7 +1028,7 @@ export default function OceanoLandingPage({
                 />
               </a>
             </div>
-            <div className="hidden md:flex items-center gap-8">
+            <div className="hidden items-center gap-5 xl:flex 2xl:gap-8">
               <a
                 href="#inicio"
                 className="text-sm font-medium text-slate-600 hover:text-blue-600 transition-colors"
@@ -1086,44 +1085,66 @@ export default function OceanoLandingPage({
               </a>
             </div>
             <button
-              className="md:hidden text-slate-600"
+              className="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 text-slate-600 xl:hidden"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              type="button"
+              aria-label={mobileMenuOpen ? "Fechar menu" : "Abrir menu"}
+              aria-expanded={mobileMenuOpen}
             >
               {mobileMenuOpen ? <X /> : <Menu />}
             </button>
           </div>
           {mobileMenuOpen && (
-            <div className="md:hidden bg-white border-t border-slate-100 py-4 space-y-4">
-              <a href="#inicio" className="block font-medium text-slate-600">
+            <div className="space-y-2 border-t border-slate-100 bg-white py-4 xl:hidden">
+              <a
+                href="#inicio"
+                onClick={() => setMobileMenuOpen(false)}
+                className="block rounded-xl px-3 py-2 font-medium text-slate-600"
+              >
                 Início
               </a>
-              <a href="#servicos" className="block font-medium text-slate-600">
+              <a
+                href="#servicos"
+                onClick={() => setMobileMenuOpen(false)}
+                className="block rounded-xl px-3 py-2 font-medium text-slate-600"
+              >
                 Serviços
               </a>
               <a
                 href="#ficha-tecnica"
-                className="block font-medium text-slate-600"
+                onClick={() => setMobileMenuOpen(false)}
+                className="block rounded-xl px-3 py-2 font-medium text-slate-600"
               >
                 Ficha Técnica
               </a>
               <a
                 href="#diferenciais"
-                className="block font-medium text-slate-600"
+                onClick={() => setMobileMenuOpen(false)}
+                className="block rounded-xl px-3 py-2 font-medium text-slate-600"
               >
                 Diferenciais
               </a>
-              <a href="#cursos" className="block font-medium text-slate-600">
+              <a
+                href="#cursos"
+                onClick={() => setMobileMenuOpen(false)}
+                className="block rounded-xl px-3 py-2 font-medium text-slate-600"
+              >
                 Cursos
               </a>
               <button
-                onClick={onNavigateToAboutOceano}
-                className="w-full text-left font-medium text-slate-600"
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  onNavigateToAboutOceano();
+                }}
+                className="w-full rounded-xl px-3 py-2 text-left font-medium text-slate-600"
+                type="button"
               >
                 Sobre Nós
               </button>
               <a
                 href="#contato-oceano"
-                className="block font-bold text-blue-600"
+                onClick={() => setMobileMenuOpen(false)}
+                className="block rounded-xl px-3 py-2 font-bold text-blue-600"
               >
                 Solicitar Orçamento
               </a>
@@ -1135,10 +1156,10 @@ export default function OceanoLandingPage({
       {/* HERO SECTION */}
       <section
         id="inicio"
-        className="pt-32 pb-16 lg:pt-36 lg:pb-24 bg-[radial-gradient(circle_at_top_right,rgba(37,99,235,0.16),transparent_34%),linear-gradient(180deg,#f8fbff_0%,#eef6ff_52%,#ffffff_100%)] overflow-hidden"
+        className="overflow-hidden bg-[radial-gradient(circle_at_top_right,rgba(37,99,235,0.16),transparent_34%),linear-gradient(180deg,#f8fbff_0%,#eef6ff_52%,#ffffff_100%)] pb-16 pt-28 lg:pb-24 lg:pt-36"
       >
         <Container>
-          <div className="grid lg:grid-cols-[minmax(0,1.05fr)_minmax(380px,0.95fr)] items-center gap-10 lg:gap-16">
+          <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:gap-16">
             <div className="text-center lg:text-left z-10">
               <Reveal>
                 <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-50 text-blue-600 text-xs font-bold mb-6 tracking-wide uppercase border border-blue-100">
@@ -1146,7 +1167,7 @@ export default function OceanoLandingPage({
                 </div>
               </Reveal>
               <Reveal delay={0.1}>
-                <h1 className="text-4xl sm:text-5xl lg:text-5xl xl:text-6xl font-extrabold text-slate-950 leading-[1.05] mb-6 tracking-tight">
+                <h1 className="mb-6 text-3xl font-extrabold leading-tight tracking-tight text-slate-950 sm:text-5xl lg:text-5xl xl:text-6xl">
                   Tecnologia com drones para{" "}
                   <span className="text-blue-600">
                     agricultura, cidades, energia e infraestrutura
@@ -1154,14 +1175,14 @@ export default function OceanoLandingPage({
                 </h1>
               </Reveal>
               <Reveal delay={0.2}>
-                <p className="text-lg text-slate-600 mb-7 leading-relaxed max-w-2xl mx-auto lg:mx-0">
+                <p className="mx-auto mb-7 max-w-2xl text-base leading-relaxed text-slate-600 sm:text-lg lg:mx-0">
                   A Oceano Azul combina operação especializada, drones de alta
                   performance e leitura técnica de campo para tornar operações
                   mais precisas, seguras e eficientes.
                 </p>
               </Reveal>
-              <Reveal delay={0.3}>
-                <div className="flex flex-col sm:flex-row items-center gap-3 justify-center">
+              <Reveal delay={0.3} width="100%">
+                <div className="flex w-full flex-col items-center justify-center gap-3 sm:flex-row lg:justify-start">
                   <a
                     href="#contato-oceano"
                     className="w-full max-w-[17rem] sm:w-auto sm:max-w-none"
@@ -1350,7 +1371,7 @@ export default function OceanoLandingPage({
                 width="100%"
                 className="h-full"
               >
-                <article className="relative flex h-full min-h-[15rem] cursor-default flex-col overflow-hidden rounded-3xl border border-slate-200/60 bg-white p-6 shadow-sm transition-colors duration-300 hover:border-slate-300 hover:bg-slate-50/70">
+                <article className="relative flex h-full min-h-[14rem] cursor-default flex-col overflow-hidden rounded-3xl border border-slate-200/60 bg-white p-5 shadow-sm transition-colors duration-300 hover:border-slate-300 hover:bg-slate-50/70 sm:p-6">
                   <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl bg-sky-50 text-sky-600">
                     <item.icon size={22} />
                   </div>
@@ -1411,7 +1432,7 @@ export default function OceanoLandingPage({
                   width="100%"
                   className="h-full"
                 >
-                  <article className="relative flex h-full min-h-[18rem] cursor-default flex-col overflow-hidden rounded-3xl border border-slate-200/60 bg-white p-6 shadow-sm transition-colors duration-300 hover:border-slate-300 hover:bg-slate-50/70">
+                  <article className="relative flex h-full min-h-[17rem] cursor-default flex-col overflow-hidden rounded-3xl border border-slate-200/60 bg-white p-5 shadow-sm transition-colors duration-300 hover:border-slate-300 hover:bg-slate-50/70 sm:p-6">
                     <div className="mb-5 flex items-start justify-between gap-4">
                       <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-sky-50 text-sky-600">
                         <category.icon size={22} />
@@ -1524,14 +1545,14 @@ export default function OceanoLandingPage({
                   width="100%"
                   className="h-full"
                 >
-                  <article className="relative flex h-full min-h-[19rem] cursor-default flex-col overflow-hidden rounded-3xl border border-slate-200/60 bg-white p-8 shadow-sm transition-colors duration-300 hover:border-slate-300 hover:bg-slate-50/70">
+                  <article className="relative flex h-full min-h-[17rem] cursor-default flex-col overflow-hidden rounded-3xl border border-slate-200/60 bg-white p-6 shadow-sm transition-colors duration-300 hover:border-slate-300 hover:bg-slate-50/70 md:min-h-[19rem] md:p-8">
                     <div className="mb-6 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-sky-50 text-sky-600">
                       <pillar.icon size={21} />
                     </div>
                     <span className="mb-3 text-xs font-bold uppercase tracking-wide text-slate-400">
                       {pillar.label}
                     </span>
-                    <h3 className="mb-3 min-h-[3.5rem] text-xl font-bold text-slate-900">
+                    <h3 className="mb-3 text-xl font-bold text-slate-900 md:min-h-[3.5rem]">
                       {pillar.title}
                     </h3>
                     <p className="mt-auto leading-relaxed text-slate-600">
@@ -1558,7 +1579,7 @@ export default function OceanoLandingPage({
               </span>
             </Reveal>
             <Reveal delay={0.1} width="100%">
-              <h2 className="mb-8 text-4xl font-extrabold leading-[0.98] tracking-tight text-slate-900 md:text-6xl">
+              <h2 className="mb-8 text-3xl font-extrabold leading-tight tracking-tight text-slate-900 sm:text-4xl md:text-6xl md:leading-[0.98]">
                 Dois gigantes se unem para formar e capacitar{" "}
                 <span className="text-blue-600">para o futuro</span>
               </h2>
@@ -1624,7 +1645,7 @@ export default function OceanoLandingPage({
                 width="100%"
                 className="h-full"
               >
-                <article className="grid cursor-default overflow-hidden rounded-3xl border border-slate-200/60 bg-white shadow-sm transition-colors duration-300 hover:border-slate-300 hover:bg-slate-50/60 lg:grid-cols-[1.05fr_0.95fr]">
+                <article className="mb-8 grid cursor-default overflow-hidden rounded-3xl border border-slate-200/60 bg-white shadow-sm transition-colors duration-300 hover:border-slate-300 hover:bg-slate-50/60 last:mb-0 lg:grid-cols-[1.05fr_0.95fr]">
                   <div className="relative min-h-[18rem] overflow-hidden bg-sky-50 lg:min-h-[30rem]">
                     {course.image ? (
                       <div className="flex h-full items-center justify-center p-4">
@@ -1645,7 +1666,7 @@ export default function OceanoLandingPage({
                       </div>
                     )}
                   </div>
-                  <div className="flex flex-col justify-center p-7 md:p-10">
+                  <div className="flex flex-col justify-center p-6 md:p-10">
                     <span className="mb-5 inline-flex w-fit items-center gap-2 rounded-full bg-sky-50 px-3 py-1 text-xs font-bold uppercase tracking-wider text-blue-600">
                       <GraduationCap size={13} /> Formação inicial
                     </span>
@@ -1842,7 +1863,7 @@ export default function OceanoLandingPage({
             }
           }}
         >
-          <div className="relative grid max-h-[92vh] w-full max-w-5xl overflow-hidden rounded-3xl bg-white shadow-2xl shadow-slate-950/30 lg:grid-cols-[1.05fr_0.95fr]">
+          <div className="relative grid max-h-[88svh] w-full max-w-5xl overflow-hidden rounded-3xl bg-white shadow-2xl shadow-slate-950/30 lg:max-h-[92vh] lg:grid-cols-[1.05fr_0.95fr]">
             <button
               type="button"
               onClick={() => setSelectedNews(null)}
@@ -1852,7 +1873,7 @@ export default function OceanoLandingPage({
               <X size={19} />
             </button>
 
-            <div className="relative min-h-[18rem] bg-sky-50 lg:min-h-[32rem]">
+            <div className="relative h-40 bg-sky-50 sm:h-56 lg:h-auto lg:min-h-[32rem]">
               <Image
                 src={selectedNews.media.src}
                 alt={selectedNews.media.alt}
@@ -1862,7 +1883,7 @@ export default function OceanoLandingPage({
               />
             </div>
 
-            <div className="overflow-y-auto p-7 md:p-9 lg:p-10">
+            <div className="overflow-y-auto p-5 sm:p-7 md:p-9 lg:p-10">
               <div className="mb-6 flex flex-wrap items-center gap-3">
                 <span className="rounded-full bg-sky-50 px-3 py-1 text-xs font-bold uppercase tracking-wide text-blue-600">
                   {selectedNews.category}
@@ -1888,7 +1909,7 @@ export default function OceanoLandingPage({
                 href={selectedNews.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-8 inline-flex items-center justify-center gap-2 rounded-full bg-blue-600 px-6 py-3 text-sm font-bold text-white shadow-lg shadow-blue-600/25 transition hover:bg-blue-700"
+                className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full bg-blue-600 px-6 py-3 text-center text-sm font-bold text-white shadow-lg shadow-blue-600/25 transition hover:bg-blue-700 sm:mt-8 sm:w-auto"
               >
                 Ver fonte: {selectedNews.sourceLabel}
                 <ArrowUpRight size={16} />
@@ -1906,7 +1927,7 @@ export default function OceanoLandingPage({
         <div className="w-full px-4 md:px-6">
           <Reveal
             width="100%"
-            className="relative rounded-[2.5rem] overflow-hidden bg-blue-700 py-16 md:py-20 px-6 shadow-xl mx-auto w-full max-w-[1280px]"
+              className="relative mx-auto w-full max-w-[1280px] overflow-hidden rounded-3xl bg-blue-700 px-5 py-12 shadow-xl sm:px-6 md:rounded-[2.5rem] md:py-20"
           >
             <div className="absolute inset-0 z-0">
               <Image
@@ -1918,21 +1939,21 @@ export default function OceanoLandingPage({
             </div>
             <div className="absolute inset-0 bg-gradient-to-r from-blue-800/90 via-blue-700/80 to-blue-800/90 z-10"></div>
             <div className="relative z-20 text-center text-white max-w-4xl mx-auto">
-              <h2 className="text-3xl md:text-5xl font-extrabold mb-6 tracking-tight">
+              <h2 className="mb-6 text-3xl font-extrabold tracking-tight md:text-5xl">
                 Equipe Profissional e Certificada
               </h2>
-              <p className="text-blue-50/90 text-lg md:text-xl mb-10 leading-relaxed max-w-2xl mx-auto">
+              <p className="mx-auto mb-10 max-w-2xl text-base leading-relaxed text-blue-50/90 md:text-xl">
                 Conte com especialistas experientes e equipamentos de última
                 geração para garantir os melhores resultados.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                <a href="#contato-oceano">
-                  <button className="px-8 py-3 bg-white text-blue-700 rounded-full font-bold text-base hover:bg-blue-50 transition-all shadow-md">
+                <a href="#contato-oceano" className="w-full sm:w-auto">
+                  <button className="w-full rounded-full bg-white px-8 py-3 text-base font-bold text-blue-700 shadow-md transition-all hover:bg-blue-50 sm:w-auto">
                     Agendar Visita Técnica
                   </button>
                 </a>
-                <a href="#contato-oceano">
-                  <button className="px-8 py-3 border border-white text-white rounded-full font-bold text-base hover:bg-white/10 transition-all">
+                <a href="#contato-oceano" className="w-full sm:w-auto">
+                  <button className="w-full rounded-full border border-white px-8 py-3 text-base font-bold text-white transition-all hover:bg-white/10 sm:w-auto">
                     Falar com Especialista
                   </button>
                 </a>
@@ -1945,7 +1966,7 @@ export default function OceanoLandingPage({
       {/* FORMULÁRIO DE CONTATO */}
       <section
         id="contato-oceano"
-        className="py-24 border-t border-slate-200/70 bg-[radial-gradient(circle_at_bottom_right,rgba(37,99,235,0.08),transparent_32%),#ffffff]"
+        className="border-t border-slate-200/70 bg-[radial-gradient(circle_at_bottom_right,rgba(37,99,235,0.08),transparent_32%),#ffffff] py-16 md:py-24"
       >
         <Container>
           <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
@@ -1956,18 +1977,18 @@ export default function OceanoLandingPage({
                 </div>
               </Reveal>
               <Reveal delay={0.1}>
-                <h2 className="text-4xl md:text-5xl font-extrabold text-slate-900 mb-6 leading-tight">
+                <h2 className="mb-6 text-3xl font-extrabold leading-tight text-slate-900 sm:text-4xl md:text-5xl">
                   Solicite um Orçamento{" "}
                   <span className="text-blue-600">Sem Compromisso</span>
                 </h2>
-                <p className="text-slate-500 text-lg mb-10 leading-relaxed">
+                <p className="mb-10 text-base leading-relaxed text-slate-500 sm:text-lg">
                   Nossa equipe está pronta para atender você e apresentar a
                   melhor solução para suas necessidades.
                 </p>
               </Reveal>
               <div className="space-y-8">
                 <Reveal delay={0.2}>
-                  <div className="flex items-start gap-5">
+                  <div className="flex items-start gap-4 sm:gap-5">
                     <div className="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center text-blue-600 flex-shrink-0 shadow-sm border border-blue-100">
                       <Mail size={22} />
                     </div>
@@ -1982,7 +2003,7 @@ export default function OceanoLandingPage({
                   </div>
                 </Reveal>
                 <Reveal delay={0.3}>
-                  <div className="flex items-start gap-5">
+                  <div className="flex items-start gap-4 sm:gap-5">
                     <div className="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center text-blue-600 flex-shrink-0 shadow-sm border border-blue-100">
                       <Phone size={22} />
                     </div>
@@ -1995,7 +2016,7 @@ export default function OceanoLandingPage({
                   </div>
                 </Reveal>
                 <Reveal delay={0.4}>
-                  <div className="flex items-start gap-5">
+                  <div className="flex items-start gap-4 sm:gap-5">
                     <div className="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center text-blue-600 flex-shrink-0 shadow-sm border border-blue-100">
                       <MapPin size={22} />
                     </div>
@@ -2011,10 +2032,11 @@ export default function OceanoLandingPage({
             </div>
             <Reveal
               delay={0.2}
-              className="lg:col-span-5 lg:col-start-8 w-full bg-slate-50 rounded-[2rem] p-8 md:p-10 border border-slate-100 shadow-xl shadow-slate-200/50"
+              width="100%"
+              className="mx-auto w-full max-w-md rounded-[1.5rem] border border-slate-100 bg-slate-50 p-5 shadow-xl shadow-slate-200/50 sm:p-8 md:p-10 lg:col-span-5 lg:col-start-8 lg:max-w-none lg:rounded-[2rem]"
             >
               {state.succeeded ? (
-                <div className="flex flex-col items-center justify-center h-full min-h-[400px] text-center animate-fade-in">
+                <div className="flex h-full min-h-[320px] flex-col items-center justify-center text-center animate-fade-in md:min-h-[400px]">
                   <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center text-green-600 mb-6 shadow-sm">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -2187,7 +2209,7 @@ export default function OceanoLandingPage({
       {/* FOOTER OCEANO AZUL */}
       <footer className="bg-[#0f172a] text-slate-300 pt-12 pb-8 border-t border-slate-800">
         <Container>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-8 mb-12 items-start">
+          <div className="mb-12 grid grid-cols-1 items-start gap-8 md:grid-cols-2 lg:grid-cols-12 lg:gap-8">
             <div className="lg:col-span-4 flex flex-col items-start">
               <div className="relative w-auto h-16 mb-5">
                 <Image
@@ -2277,9 +2299,9 @@ export default function OceanoLandingPage({
               </ul>
             </div>
           </div>
-          <div className="border-t border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-slate-500">
+          <div className="flex flex-col items-center justify-between gap-4 border-t border-slate-800 pt-8 text-center text-xs text-slate-500 md:flex-row md:text-left">
             <p>&copy; 2026 Oceano Azul. Todos os direitos reservados.</p>
-            <div className="flex gap-6 font-medium">
+            <div className="flex flex-wrap justify-center gap-4 font-medium sm:gap-6">
               <a href="#" className="hover:text-white transition-colors">
                 Política de Privacidade
               </a>

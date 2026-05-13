@@ -53,20 +53,25 @@ export default function OceanoAboutPage({
   return (
     <div className="min-h-screen bg-white font-sans text-slate-900">
       {/* NAVBAR SIMPLIFICADA */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-100 h-20 flex items-center">
+      <nav className="fixed left-0 right-0 top-0 z-50 flex h-20 items-center border-b border-slate-100 bg-white/80 backdrop-blur-md">
         <Container>
           <div className="flex items-center justify-between">
-            <div className="relative w-40 h-12 cursor-pointer" onClick={onBack}>
+            <button
+              type="button"
+              className="relative h-12 w-36 cursor-pointer sm:w-40"
+              onClick={onBack}
+              aria-label="Voltar para início"
+            >
               <Image
                 src="/images/oceano-azul-logo-sem-fundo.png"
                 alt="Oceano Azul"
                 fill
                 className="object-contain object-left"
               />
-            </div>
+            </button>
             <button
               onClick={onBack}
-              className="text-sm font-bold text-slate-600 hover:text-blue-600 flex items-center gap-2"
+              className="flex items-center gap-2 text-sm font-bold text-slate-600 hover:text-blue-600"
             >
               <ArrowRight className="rotate-180" size={16} /> Voltar para Início
             </button>
@@ -75,7 +80,7 @@ export default function OceanoAboutPage({
       </nav>
 
       {/* HEADER INSTITUCIONAL */}
-      <section className="pt-40 pb-20 bg-[radial-gradient(circle_at_top_right,rgba(37,99,235,0.14),transparent_34%),linear-gradient(180deg,#f8fbff_0%,#eef6ff_58%,#ffffff_100%)]">
+      <section className="bg-[radial-gradient(circle_at_top_right,rgba(37,99,235,0.14),transparent_34%),linear-gradient(180deg,#f8fbff_0%,#eef6ff_58%,#ffffff_100%)] pb-16 pt-32 md:pb-20 md:pt-40">
         <Container>
           <div className="max-w-4xl mx-auto text-center flex flex-col items-center">
             <Reveal width="100%">
@@ -84,13 +89,13 @@ export default function OceanoAboutPage({
               </span>
             </Reveal>
             <Reveal delay={0.1} width="100%">
-              <h1 className="text-4xl md:text-6xl font-extrabold text-slate-900 mb-6 tracking-tight">
+              <h1 className="mb-6 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl md:text-6xl">
                 Tecnologia com drones para <br />
                 <span className="text-blue-600">operações complexas</span>
               </h1>
             </Reveal>
             <Reveal delay={0.2}>
-              <p className="text-lg text-slate-600 leading-relaxed max-w-2xl mx-auto">
+              <p className="mx-auto max-w-2xl text-base leading-relaxed text-slate-600 sm:text-lg">
                 A Oceano Azul atua desde 2019 desenvolvendo e operando soluções
                 com drones para agricultura, cidades, energia e infraestrutura,
                 conectando planejamento, execução em campo e inteligência de
@@ -104,7 +109,7 @@ export default function OceanoAboutPage({
       {/* ESTATÍSTICAS & HISTÓRIA */}
       <Section className="bg-white border-t border-slate-200/70">
         <Container>
-          <div className="grid md:grid-cols-2 gap-16 items-center">
+          <div className="grid items-center gap-10 md:grid-cols-2 lg:gap-16">
             <Reveal>
               <h2 className="text-3xl font-extrabold text-slate-900 mb-6">
                 Da operação ao dado final
@@ -148,7 +153,7 @@ export default function OceanoAboutPage({
                 </div>
               </div>
             </Reveal>
-            <div className="relative h-[500px]">
+            <div className="relative h-[320px] sm:h-[420px] lg:h-[500px]">
               <AnimatedImageFrame className="h-full shadow-2xl bg-slate-200">
                 <Image
                   src="/images/drones_empresa.jpeg"
@@ -165,7 +170,7 @@ export default function OceanoAboutPage({
       {/* MISSÃO, VISÃO E VALORES */}
       <section
         id="missao-visao-valores"
-        className="py-20 border-t border-blue-100/70 bg-[linear-gradient(180deg,#ffffff_0%,#f3f8ff_100%)]"
+        className="border-t border-blue-100/70 bg-[linear-gradient(180deg,#ffffff_0%,#f3f8ff_100%)] py-16 md:py-20"
       >
         <Container>
           <div className="max-w-4xl mx-auto text-center mb-14 flex flex-col items-center">
@@ -181,7 +186,7 @@ export default function OceanoAboutPage({
               </h2>
             </Reveal>
             <Reveal delay={0.2}>
-              <p className="text-lg text-slate-600 leading-relaxed max-w-2xl mx-auto">
+              <p className="mx-auto max-w-2xl text-base leading-relaxed text-slate-600 sm:text-lg">
                 Esta base institucional resume a forma como a Oceano Azul pensa,
                 opera e constrói relações com clientes, parceiros e equipes.
               </p>
@@ -209,7 +214,7 @@ export default function OceanoAboutPage({
       </section>
 
       {/* ÁREAS DE ATUAÇÃO */}
-      <section className="py-20 bg-slate-900 text-white border-t border-slate-800">
+      <section className="border-t border-slate-800 bg-slate-900 py-16 text-white md:py-20">
         <Container>
           <div className="text-center mb-16 flex flex-col items-center">
             <Reveal width="100%">
@@ -225,7 +230,7 @@ export default function OceanoAboutPage({
             </Reveal>
           </div>
 
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {[
               { icon: Leaf, label: "Agricultura" },
               { icon: Users, label: "Cidades" },
@@ -233,7 +238,7 @@ export default function OceanoAboutPage({
               { icon: Map, label: "Infraestrutura" },
             ].map((area, i) => (
               <Reveal key={i} delay={i * 0.1} width="100%">
-                <div className="bg-slate-800/50 border border-slate-700 p-6 rounded-2xl flex cursor-default flex-col items-center justify-center gap-3 transition-colors duration-300 hover:border-slate-600 hover:bg-slate-800/80">
+                <div className="flex cursor-default flex-col items-center justify-center gap-3 rounded-2xl border border-slate-700 bg-slate-800/50 p-5 transition-colors duration-300 hover:border-slate-600 hover:bg-slate-800/80 sm:p-6">
                   <area.icon size={24} className="text-blue-400" />
                   <span className="font-bold text-sm">{area.label}</span>
                 </div>
@@ -279,7 +284,7 @@ export default function OceanoAboutPage({
                 ))}
               </ul>
             </div>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 gap-3 sm:gap-4">
               <AnimatedImageFrame className="aspect-square bg-slate-100 rounded-2xl">
                 <div className="relative h-full w-full">
                   <Image
@@ -306,9 +311,9 @@ export default function OceanoAboutPage({
       </Section>
 
       {/* CTA CONTATO */}
-      <section className="py-20 bg-[linear-gradient(135deg,#2563eb_0%,#1d4ed8_55%,#0f3fa8_100%)] text-white border-t border-blue-400/30">
+      <section className="border-t border-blue-400/30 bg-[linear-gradient(135deg,#2563eb_0%,#1d4ed8_55%,#0f3fa8_100%)] py-16 text-white md:py-20">
         <Container>
-          <div className="flex flex-col md:flex-row items-center justify-between gap-8">
+          <div className="flex flex-col items-stretch justify-between gap-8 text-center md:flex-row md:items-center md:text-left">
             <div>
               <h2 className="text-3xl font-extrabold mb-2">
                 Pronto para inovar?
@@ -317,8 +322,8 @@ export default function OceanoAboutPage({
                 Fale com nossa equipe técnica hoje mesmo.
               </p>
             </div>
-            <div className="flex flex-col sm:flex-row gap-4">
-              <div className="flex items-center gap-3 bg-blue-700 px-6 py-3 rounded-xl border border-blue-500">
+            <div className="flex flex-col gap-4 sm:flex-row">
+              <div className="flex items-center gap-3 rounded-xl border border-blue-500 bg-blue-700 px-5 py-3 sm:px-6">
                 <Phone size={20} />
                 <div>
                   <div className="text-xs text-blue-200 uppercase font-bold">
@@ -329,7 +334,7 @@ export default function OceanoAboutPage({
               </div>
               <button
                 onClick={handleBudgetClick}
-                className="px-8 py-3 bg-white text-blue-700 rounded-xl font-bold hover:bg-blue-50 transition-colors"
+                className="rounded-xl bg-white px-8 py-3 font-bold text-blue-700 transition-colors hover:bg-blue-50"
               >
                 Solicitar Orçamento
               </button>
