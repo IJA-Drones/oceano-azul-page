@@ -965,32 +965,33 @@ export default function OceanoLandingPage({
       },
     },
     {
-      title: "Inspeção aérea de ativos de energia e infraestrutura",
+      title: "Inspeção de redes elétricas e infraestrutura linear",
       area: "Energia e infraestrutura",
       location: "Cliente de infraestrutura, divulgação restrita",
       challenge:
-        "Inspeção de estruturas críticas com menos exposição de equipe e menor interferência operacional.",
+        "Monitorar redes elétricas, rodovias e estruturas críticas com menos exposição de equipe.",
       solution:
         "Voo técnico com drone de inspeção, captura visual de alta resolução e organização das evidências por ativo para análise da manutenção.",
       result:
-        "Evidências organizadas para manutenção preventiva e priorização de intervenções.",
+        "Visão aérea para manutenção, acompanhamento de faixa e priorização de intervenções.",
       resultLabel: "Entrega operacional",
       metrics: [
-        "Torres e estruturas inspecionadas",
-        "Imagens de alta resolução",
-        "Relatório técnico com achados",
+        "Redes elétricas e rodovias",
+        "Monitoramento visual",
+        "Evidências para manutenção",
       ],
       technicalDetails: [
-        { label: "Ativo", value: "Torres, linhas e estruturas" },
+        { label: "Ativo", value: "Redes, rodovias e faixas" },
         { label: "Drone", value: "Inspeção com câmera RGB" },
-        { label: "Entrega", value: "Fotos, mapa visual e diagnóstico" },
-        { label: "Ganho", value: "Menor risco e triagem mais rápida" },
+        { label: "Entrega", value: "Vídeo, fotos e diagnóstico visual" },
+        { label: "Ganho", value: "Mais alcance e triagem rápida" },
       ],
       media: {
-        type: "image",
-        src: "/images/inspecao_torres.jpeg",
-        alt: "Inspeção aérea de torres e ativos de energia com drone",
-        note: "Foto de operação",
+        type: "video",
+        src: "/videos/video-case-torres.mp4",
+        poster: "/images/infra.png",
+        alt: "Inspeção aérea de redes elétricas, rodovias e infraestrutura com drone",
+        note: "Vídeo de operação",
       },
     },
   ];
