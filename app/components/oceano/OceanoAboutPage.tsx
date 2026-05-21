@@ -11,6 +11,8 @@ import {
   Leaf,
   CheckCircle2,
   Phone,
+  Moon,
+  Sun,
 } from "lucide-react";
 import { Reveal, Container, Section, AnimatedImageFrame } from "../ui-kit";
 
@@ -21,6 +23,9 @@ export default function OceanoAboutPage({
   onBack: () => void;
   onRequestBudget: () => void;
 }) {
+  const [isDarkMode, setIsDarkMode] = React.useState(false);
+  const hasMountedTheme = React.useRef(false);
+
   const handleBudgetClick = () => {
     onRequestBudget();
   };
@@ -50,12 +55,38 @@ export default function OceanoAboutPage({
     window.scrollTo(0, 0);
   }, []);
 
+  React.useEffect(() => {
+    setIsDarkMode(localStorage.getItem("oceano-theme") === "dark");
+  }, []);
+
+  React.useEffect(() => {
+    if (!hasMountedTheme.current) {
+      hasMountedTheme.current = true;
+      return;
+    }
+
+    document.documentElement.classList.toggle("oceano-dark", isDarkMode);
+    document.documentElement.dataset.theme = isDarkMode ? "dark" : "light";
+    localStorage.setItem("oceano-theme", isDarkMode ? "dark" : "light");
+  }, [isDarkMode]);
+
+  const themeLabel = isDarkMode
+    ? "Alternar para modo claro"
+    : "Alternar para modo escuro";
+
   return (
-    <div className="min-h-screen bg-white font-sans text-slate-900">
+    <div
+      className={`oceano-page min-h-screen font-sans transition-colors duration-500 ${
+        isDarkMode
+          ? "oceano-dark bg-slate-950 text-slate-100"
+          : "bg-white text-slate-900"
+      }`}
+      data-theme={isDarkMode ? "dark" : "light"}
+    >
       {/* NAVBAR SIMPLIFICADA */}
       <nav className="fixed left-0 right-0 top-0 z-50 flex h-20 items-center border-b border-slate-100 bg-white/80 backdrop-blur-md">
         <Container>
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between gap-3">
             <button
               type="button"
               className="relative h-12 w-36 cursor-pointer sm:w-40"
@@ -66,8 +97,20 @@ export default function OceanoAboutPage({
                 src="/images/oceano-azul-logo-sem-fundo.png"
                 alt="Oceano Azul"
                 fill
+                priority
+                sizes="(min-width: 640px) 160px, 144px"
                 className="object-contain object-left"
               />
+            </button>
+            <button
+              type="button"
+              onClick={() => setIsDarkMode((current) => !current)}
+              className="ml-auto flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-600 shadow-sm transition hover:border-blue-200 hover:bg-blue-50 hover:text-blue-700"
+              aria-label={themeLabel}
+              aria-pressed={isDarkMode}
+              title={themeLabel}
+            >
+              {isDarkMode ? <Sun size={18} /> : <Moon size={18} />}
             </button>
             <button
               onClick={onBack}
@@ -159,6 +202,7 @@ export default function OceanoAboutPage({
                   src="/images/drones_empresa.jpeg"
                   alt="Drones da Oceano Azul"
                   fill
+                  sizes="(min-width: 1024px) 50vw, 100vw"
                   className="object-cover"
                 />
               </AnimatedImageFrame>
@@ -291,6 +335,7 @@ export default function OceanoAboutPage({
                     src="/images/pulverizacao_dengue.png"
                     alt="Pulverização contra o mosquito da dengue"
                     fill
+                    sizes="(min-width: 768px) 25vw, 50vw"
                     className="object-cover"
                   />
                 </div>
@@ -301,6 +346,7 @@ export default function OceanoAboutPage({
                     src="/images/pulverizacao_agricola.jpeg"
                     alt="Operação agrícola com drone em campo"
                     fill
+                    sizes="(min-width: 768px) 25vw, 50vw"
                     className="object-cover"
                   />
                 </div>

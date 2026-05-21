@@ -20,11 +20,13 @@ import {
   Instagram,
   Linkedin,
   MapPin,
+  Moon,
   Users,
   Shield,
   Zap,
   ChevronDown,
   Sparkles,
+  Sun,
   Bot,
   Clock,
   Microscope,
@@ -42,6 +44,7 @@ import {
   Reveal,
   Container,
   FeatureCard,
+  useMobilePerformanceMode,
 } from "../ui-kit";
 
 const partnerBrands = [
@@ -97,34 +100,165 @@ const partnerBrands = [
 ];
 
 function HeroVideo() {
+  const videoRef = React.useRef<HTMLVideoElement | null>(null);
+  const isMobilePerformanceMode = useMobilePerformanceMode();
+  const [shouldLoadVideo, setShouldLoadVideo] = React.useState(false);
+  const [shouldPlayVideo, setShouldPlayVideo] = React.useState(false);
+
+  React.useEffect(() => {
+    if (isMobilePerformanceMode) return;
+
+    const idleWindow = window as Window & {
+      requestIdleCallback?: (callback: () => void, options?: { timeout: number }) => number;
+      cancelIdleCallback?: (handle: number) => void;
+    };
+
+    if (idleWindow.requestIdleCallback) {
+      const handle = idleWindow.requestIdleCallback(
+        () => setShouldLoadVideo(true),
+        { timeout: 1500 }
+      );
+
+      return () => idleWindow.cancelIdleCallback?.(handle);
+    }
+
+    const timer = window.setTimeout(() => setShouldLoadVideo(true), 1200);
+
+    return () => window.clearTimeout(timer);
+  }, [isMobilePerformanceMode]);
+
+  React.useEffect(() => {
+    if (!shouldLoadVideo || !shouldPlayVideo) return;
+
+    void videoRef.current?.play();
+    setShouldPlayVideo(false);
+  }, [shouldLoadVideo, shouldPlayVideo]);
+
+  const handleMobileVideoPlay = () => {
+    setShouldLoadVideo(true);
+    setShouldPlayVideo(true);
+  };
+
   return (
     <div className="relative mx-auto w-full max-w-[min(24rem,38svh)] sm:max-w-[min(28rem,42svh)] lg:mx-0 lg:ml-auto">
       <div className="absolute -inset-6 -z-10 rounded-[3rem] bg-blue-200/40 blur-3xl" />
-      <div className="relative overflow-hidden rounded-[2rem] border border-blue-100 bg-slate-950 shadow-2xl shadow-blue-950/20">
+      <div className="relative overflow-hidden rounded-[2rem] border border-blue-100 bg-blue-50 shadow-2xl shadow-blue-950/20">
         <video
+          ref={videoRef}
           className="block aspect-[9/16] w-full object-contain"
-          src="/videos/empresa-profissional-de-drones.mp4"
+          src={
+            shouldLoadVideo
+              ? "/videos/empresa-profissional-de-drones.mp4"
+              : undefined
+          }
           poster="/images/drones_empresa.jpeg"
-          autoPlay
+          autoPlay={shouldLoadVideo}
           muted
           loop
           playsInline
-          preload="metadata"
+          controls={isMobilePerformanceMode && shouldLoadVideo}
+          preload="none"
         >
           Seu navegador não suporta vídeo HTML5.
         </video>
+        {isMobilePerformanceMode && !shouldLoadVideo ? (
+          <button
+            type="button"
+            onClick={handleMobileVideoPlay}
+            className="absolute left-1/2 top-1/2 flex h-16 w-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-white/70 bg-white/95 text-blue-600 shadow-2xl shadow-blue-950/25 transition active:scale-95"
+            aria-label="Reproduzir vídeo institucional"
+          >
+            <Play size={26} className="ml-1 fill-current" />
+          </button>
+        ) : null}
       </div>
     </div>
   );
 }
 
+function LazyVideo({
+  src,
+  preload = "metadata",
+  ...props
+}: React.VideoHTMLAttributes<HTMLVideoElement> & { src: string }) {
+  const videoRef = React.useRef<HTMLVideoElement | null>(null);
+  const [canLoad, setCanLoad] = React.useState(false);
+
+  React.useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    if (!("IntersectionObserver" in window)) {
+      setCanLoad(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setCanLoad(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "700px 0px" }
+    );
+
+    observer.observe(video);
+
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <video
+      ref={videoRef}
+      src={canLoad ? src : undefined}
+      preload={canLoad ? preload : "none"}
+      {...props}
+    />
+  );
+}
+
 function StarlinkDifferentialCard() {
   const videoRef = React.useRef<HTMLVideoElement | null>(null);
+  const [canLoadStarlinkVideo, setCanLoadStarlinkVideo] = useState(false);
+  const [shouldPlayStarlinkVideo, setShouldPlayStarlinkVideo] = useState(false);
   const [isStarlinkVideoPlaying, setIsStarlinkVideoPlaying] = useState(false);
 
   const handleStarlinkVideoPlay = () => {
-    void videoRef.current?.play();
+    setCanLoadStarlinkVideo(true);
+    setShouldPlayStarlinkVideo(true);
   };
+
+  React.useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    if (!("IntersectionObserver" in window)) {
+      setCanLoadStarlinkVideo(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setCanLoadStarlinkVideo(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "700px 0px" }
+    );
+
+    observer.observe(video);
+
+    return () => observer.disconnect();
+  }, []);
+
+  React.useEffect(() => {
+    if (!canLoadStarlinkVideo || !shouldPlayStarlinkVideo) return;
+
+    void videoRef.current?.play();
+    setShouldPlayStarlinkVideo(false);
+  }, [canLoadStarlinkVideo, shouldPlayStarlinkVideo]);
 
   return (
     <Reveal delay={0.18} className="md:col-span-2 lg:col-span-3" width="100%">
@@ -160,11 +294,15 @@ function StarlinkDifferentialCard() {
             <video
               ref={videoRef}
               className="block aspect-[9/16] w-full object-cover"
-              src="/videos/video-informatico-starlink.mp4"
+              src={
+                canLoadStarlinkVideo
+                  ? "/videos/video-informatico-starlink.mp4"
+                  : undefined
+              }
               poster="/images/starlink.png"
               controls
               playsInline
-              preload="metadata"
+              preload={canLoadStarlinkVideo ? "metadata" : "none"}
               onPlay={() => setIsStarlinkVideoPlaying(true)}
               onPause={() => setIsStarlinkVideoPlaying(false)}
               onEnded={() => setIsStarlinkVideoPlaying(false)}
@@ -219,7 +357,7 @@ function PartnerLogoCarousel() {
               {brandGroup.map((brand) => (
                 <div
                   key={`${brand.name}-${groupIndex}`}
-                  className="flex h-28 w-56 shrink-0 items-center justify-center rounded-lg px-4 py-4 transition duration-300 hover:bg-slate-50 md:h-32 md:w-64 lg:h-36 lg:w-72"
+                  className="brand-logo-tile flex h-28 w-56 shrink-0 items-center justify-center rounded-lg bg-white px-4 py-4 transition duration-300 hover:bg-slate-50 md:h-32 md:w-64 lg:h-36 lg:w-72"
                 >
                   <Image
                     src={brand.image}
@@ -574,14 +712,14 @@ function OperationCaseCard({
         </div>
 
         <div
-          className={`relative order-first flex items-center justify-center overflow-hidden bg-slate-950 lg:order-none ${
+          className={`relative order-first flex items-center justify-center overflow-hidden bg-blue-50 lg:order-none ${
             operationCase.media.type === "video"
               ? "p-3 sm:p-4 lg:p-5"
               : "h-64 sm:h-72 lg:h-auto"
           }`}
         >
           {operationCase.media.type === "video" ? (
-            <video
+            <LazyVideo
               className="block aspect-[9/16] h-auto max-h-[calc(100svh-6rem)] w-full max-w-[15.75rem] object-contain sm:max-w-[18rem] lg:max-h-none lg:max-w-[19rem]"
               src={operationCase.media.src}
               poster={operationCase.media.poster}
@@ -590,7 +728,7 @@ function OperationCaseCard({
               preload="metadata"
             >
               Seu navegador não suporta vídeo HTML5.
-            </video>
+            </LazyVideo>
           ) : (
             <Image
               src={operationCase.media.src}
@@ -664,6 +802,8 @@ export default function OceanoLandingPage({
   onNavigateToAboutOceano: () => void;
 }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(false);
+  const hasMountedTheme = React.useRef(false);
   const [showAllSolutions, setShowAllSolutions] = useState(false);
   const { state, handleSubmit, resetForm } = useLeadForm("Oceano Azul");
 
@@ -1210,6 +1350,21 @@ export default function OceanoLandingPage({
   }, []);
 
   React.useEffect(() => {
+    setIsDarkMode(localStorage.getItem("oceano-theme") === "dark");
+  }, []);
+
+  React.useEffect(() => {
+    if (!hasMountedTheme.current) {
+      hasMountedTheme.current = true;
+      return;
+    }
+
+    document.documentElement.classList.toggle("oceano-dark", isDarkMode);
+    document.documentElement.dataset.theme = isDarkMode ? "dark" : "light";
+    localStorage.setItem("oceano-theme", isDarkMode ? "dark" : "light");
+  }, [isDarkMode]);
+
+  React.useEffect(() => {
     if (!selectedNews) return;
 
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -1228,8 +1383,19 @@ export default function OceanoLandingPage({
     };
   }, [selectedNews]);
 
+  const themeLabel = isDarkMode
+    ? "Alternar para modo claro"
+    : "Alternar para modo escuro";
+
   return (
-    <div className="min-h-screen bg-white font-sans text-slate-900">
+    <div
+      className={`oceano-page min-h-screen font-sans transition-colors duration-500 ${
+        isDarkMode
+          ? "oceano-dark bg-slate-950 text-slate-100"
+          : "bg-white text-slate-900"
+      }`}
+      data-theme={isDarkMode ? "dark" : "light"}
+    >
       {/* NAVBAR */}
       <motion.nav
         initial={{ y: -100 }}
@@ -1245,6 +1411,8 @@ export default function OceanoLandingPage({
                   src="/images/oceano-azul-logo-sem-fundo.png"
                   alt="Logo oeceano azul"
                   fill
+                  priority
+                  sizes="(min-width: 1280px) 240px, (min-width: 640px) 208px, 176px"
                   className="object-contain object-left"
                 />
               </a>
@@ -1304,16 +1472,38 @@ export default function OceanoLandingPage({
                   Solicitar Orçamento
                 </button>
               </a>
+              <button
+                type="button"
+                onClick={() => setIsDarkMode((current) => !current)}
+                className="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-600 shadow-sm transition hover:border-blue-200 hover:bg-blue-50 hover:text-blue-700"
+                aria-label={themeLabel}
+                aria-pressed={isDarkMode}
+                title={themeLabel}
+              >
+                {isDarkMode ? <Sun size={18} /> : <Moon size={18} />}
+              </button>
             </div>
-            <button
-              className="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 text-slate-600 xl:hidden"
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              type="button"
-              aria-label={mobileMenuOpen ? "Fechar menu" : "Abrir menu"}
-              aria-expanded={mobileMenuOpen}
-            >
-              {mobileMenuOpen ? <X /> : <Menu />}
-            </button>
+            <div className="flex items-center gap-2 xl:hidden">
+              <button
+                type="button"
+                onClick={() => setIsDarkMode((current) => !current)}
+                className="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-600 shadow-sm transition hover:border-blue-200 hover:bg-blue-50 hover:text-blue-700"
+                aria-label={themeLabel}
+                aria-pressed={isDarkMode}
+                title={themeLabel}
+              >
+                {isDarkMode ? <Sun size={18} /> : <Moon size={18} />}
+              </button>
+              <button
+                className="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 text-slate-600"
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                type="button"
+                aria-label={mobileMenuOpen ? "Fechar menu" : "Abrir menu"}
+                aria-expanded={mobileMenuOpen}
+              >
+                {mobileMenuOpen ? <X /> : <Menu />}
+              </button>
+            </div>
           </div>
           {mobileMenuOpen && (
             <div className="space-y-2 border-t border-slate-100 bg-white py-4 xl:hidden">
@@ -1927,7 +2117,7 @@ export default function OceanoLandingPage({
                           alt={course.title}
                           width={1066}
                           height={1424}
-                          unoptimized
+                          sizes="(min-width: 1024px) 45vw, 100vw"
                           className="h-full w-auto max-w-full rounded-[1.5rem] object-contain shadow-sm"
                         />
                       </div>
@@ -2207,6 +2397,7 @@ export default function OceanoLandingPage({
                 src="/images/equipe-bg.png"
                 alt="Equipe Profissional Oceano Azul"
                 fill
+                sizes="(min-width: 1280px) 1280px, 100vw"
                 className="object-cover opacity-70 mix-blend-overlay"
               />
             </div>
@@ -2221,12 +2412,12 @@ export default function OceanoLandingPage({
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
                 <a href="#contato-oceano" className="w-full sm:w-auto">
-                  <button className="w-full rounded-full bg-white px-8 py-3 text-base font-bold text-blue-700 shadow-md transition-all hover:bg-blue-50 sm:w-auto">
+                  <button className="w-full rounded-full bg-white px-8 py-3 text-base font-bold text-blue-700 shadow-md shadow-blue-950/10 transition-all duration-300 hover:-translate-y-1 hover:bg-blue-50 hover:text-blue-800 hover:shadow-xl hover:shadow-blue-950/25 active:translate-y-0 sm:w-auto">
                     Agendar Visita Técnica
                   </button>
                 </a>
                 <a href="#contato-oceano" className="w-full sm:w-auto">
-                  <button className="w-full rounded-full border border-white px-8 py-3 text-base font-bold text-white transition-all hover:bg-white/10 sm:w-auto">
+                  <button className="w-full rounded-full border border-white/80 px-8 py-3 text-base font-bold text-white transition-all duration-300 hover:-translate-y-1 hover:border-white hover:bg-white hover:text-blue-700 hover:shadow-xl hover:shadow-blue-950/25 active:translate-y-0 sm:w-auto">
                     Falar com Especialista
                   </button>
                 </a>
@@ -2490,6 +2681,7 @@ export default function OceanoLandingPage({
                   alt="Oceano Azul"
                   width={220}
                   height={64}
+                  sizes="220px"
                   className="h-full w-auto object-contain object-left"
                 />
               </div>

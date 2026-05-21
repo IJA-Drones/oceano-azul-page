@@ -4,6 +4,28 @@ import React from "react";
 import type { LucideIcon } from "lucide-react";
 import { motion } from "framer-motion";
 
+export function useMobilePerformanceMode() {
+  const [isMobilePerformanceMode, setIsMobilePerformanceMode] =
+    React.useState(false);
+
+  React.useEffect(() => {
+    const mediaQuery = window.matchMedia(
+      "(max-width: 767px), (pointer: coarse)"
+    );
+
+    const updatePreference = () => {
+      setIsMobilePerformanceMode(mediaQuery.matches);
+    };
+
+    updatePreference();
+    mediaQuery.addEventListener("change", updatePreference);
+
+    return () => mediaQuery.removeEventListener("change", updatePreference);
+  }, []);
+
+  return isMobilePerformanceMode;
+}
+
 // --- 1. REVEAL (ATUALIZADO) ---
 // Faz o elemento aparecer de baixo para cima suavemente ao rolar
 export function Reveal({
@@ -17,6 +39,16 @@ export function Reveal({
   width?: "fit-content" | "100%";
   className?: string;
 }) {
+  const isMobilePerformanceMode = useMobilePerformanceMode();
+
+  if (isMobilePerformanceMode) {
+    return (
+      <div style={{ width }} className={className}>
+        <div className="h-full">{children}</div>
+      </div>
+    );
+  }
+
   return (
     <div style={{ width }} className={className}>
       <motion.div
@@ -45,6 +77,17 @@ export function AnimatedImageFrame({
   children: React.ReactNode;
   className?: string;
 }) {
+  const isMobilePerformanceMode = useMobilePerformanceMode();
+
+  if (isMobilePerformanceMode) {
+    return (
+      <div className={`group relative overflow-hidden rounded-3xl ${className}`}>
+        <div className="h-full w-full">{children}</div>
+        <div className="pointer-events-none absolute inset-0 bg-black/10"></div>
+      </div>
+    );
+  }
+
   return (
     <div className={`group relative overflow-hidden rounded-3xl ${className}`}>
       <motion.div
