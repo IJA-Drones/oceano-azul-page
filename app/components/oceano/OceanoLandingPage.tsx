@@ -102,7 +102,7 @@ function HeroVideo() {
       <div className="absolute -inset-6 -z-10 rounded-[3rem] bg-blue-200/40 blur-3xl" />
       <div className="relative overflow-hidden rounded-[2rem] border border-blue-100 bg-slate-950 shadow-2xl shadow-blue-950/20">
         <video
-          className="aspect-[9/16] w-full object-contain"
+          className="block aspect-[9/16] w-full object-contain"
           src="/videos/empresa-profissional-de-drones.mp4"
           poster="/images/drones_empresa.jpeg"
           autoPlay
@@ -159,8 +159,8 @@ function StarlinkDifferentialCard() {
           <div className="relative w-full max-w-[19rem] overflow-hidden rounded-2xl border border-blue-100 bg-white shadow-sm">
             <video
               ref={videoRef}
-              className="aspect-[9/16] w-full object-cover"
-              src="/videos/vídeo-informatico-starlink.mp4"
+              className="block aspect-[9/16] w-full object-cover"
+              src="/videos/video-informatico-starlink.mp4"
               poster="/images/starlink.png"
               controls
               playsInline
@@ -576,13 +576,13 @@ function OperationCaseCard({
         <div
           className={`relative order-first flex items-center justify-center overflow-hidden bg-slate-950 lg:order-none ${
             operationCase.media.type === "video"
-              ? "h-[30rem] p-4 lg:h-auto lg:p-5"
+              ? "p-3 sm:p-4 lg:p-5"
               : "h-64 sm:h-72 lg:h-auto"
           }`}
         >
           {operationCase.media.type === "video" ? (
             <video
-              className="aspect-[9/16] h-auto w-full max-w-[19rem] object-contain"
+              className="block aspect-[9/16] h-auto max-h-[calc(100svh-6rem)] w-full max-w-[15.75rem] object-contain sm:max-w-[18rem] lg:max-h-none lg:max-w-[19rem]"
               src={operationCase.media.src}
               poster={operationCase.media.poster}
               controls
@@ -605,7 +605,11 @@ function OperationCaseCard({
             <div className="absolute inset-0 bg-gradient-to-t from-slate-950/15 via-transparent to-blue-950/10" />
           ) : null}
 
-          <span className="absolute bottom-4 left-4 z-20 rounded-full bg-white/95 px-3 py-1 text-xs font-bold uppercase tracking-wide text-blue-700 shadow-sm">
+          <span
+            className={`absolute left-4 z-20 rounded-full bg-white/95 px-3 py-1 text-xs font-bold uppercase tracking-wide text-blue-700 shadow-sm ${
+              operationCase.media.type === "video" ? "top-4" : "bottom-4"
+            }`}
+          >
             {operationCase.media.note}
           </span>
         </div>
@@ -2280,7 +2284,7 @@ export default function OceanoLandingPage({
                       <h4 className="font-bold text-slate-900 text-lg">
                         WhatsApp
                       </h4>
-                      <p className="text-slate-500 mt-1">+55 (11) 98765-4321</p>
+                      <p className="text-slate-500 mt-1">+55 (35) 99239-4222</p>
                     </div>
                   </div>
                 </Reveal>
