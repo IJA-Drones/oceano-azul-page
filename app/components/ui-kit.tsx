@@ -4,27 +4,42 @@ import React from "react";
 import type { LucideIcon } from "lucide-react";
 import { motion } from "framer-motion";
 
-export function useMobilePerformanceMode() {
-  const [isMobilePerformanceMode, setIsMobilePerformanceMode] =
-    React.useState(false);
+export function usePerformanceMode() {
+  const [isPerformanceMode, setIsPerformanceMode] = React.useState(false);
 
   React.useEffect(() => {
-    const mediaQuery = window.matchMedia(
-      "(max-width: 767px), (pointer: coarse)"
-    );
-
     const updatePreference = () => {
-      setIsMobilePerformanceMode(mediaQuery.matches);
+      const params = new URLSearchParams(window.location.search);
+
+      const isStandMode = params.get("mode") === "stand";
+
+      const isMobile = window.matchMedia(
+        "(max-width: 767px), (pointer: coarse)"
+      ).matches;
+
+      // Ativa em TV/monitor grande
+      const isVeryLargeScreen = window.innerWidth >= 2000;
+
+      const prefersReducedMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+      ).matches;
+
+      setIsPerformanceMode(
+        isStandMode || isMobile || isVeryLargeScreen || prefersReducedMotion
+      );
     };
 
     updatePreference();
-    mediaQuery.addEventListener("change", updatePreference);
 
-    return () => mediaQuery.removeEventListener("change", updatePreference);
+    window.addEventListener("resize", updatePreference);
+
+    return () => window.removeEventListener("resize", updatePreference);
   }, []);
 
-  return isMobilePerformanceMode;
+  return isPerformanceMode;
 }
+
+export const useMobilePerformanceMode = usePerformanceMode;
 
 // --- 1. REVEAL (ATUALIZADO) ---
 // Faz o elemento aparecer de baixo para cima suavemente ao rolar
@@ -39,9 +54,9 @@ export function Reveal({
   width?: "fit-content" | "100%";
   className?: string;
 }) {
-  const isMobilePerformanceMode = useMobilePerformanceMode();
+  const isPerformanceMode = usePerformanceMode();
 
-  if (isMobilePerformanceMode) {
+  if (isPerformanceMode) {
     return (
       <div style={{ width }} className={className}>
         <div className="h-full">{children}</div>
@@ -54,13 +69,17 @@ export function Reveal({
       <motion.div
         className="h-full"
         variants={{
-          hidden: { opacity: 0, y: 40 },
+          hidden: { opacity: 0, y: 24 },
           visible: { opacity: 1, y: 0 },
         }}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, margin: "-100px" }}
-        transition={{ duration: 0.7, delay: delay, ease: [0.25, 0.4, 0.25, 1] }}
+        viewport={{ once: true, margin: "-80px" }}
+        transition={{
+          duration: 0.45,
+          delay: Math.min(delay, 0.12),
+          ease: "easeOut",
+        }}
       >
         {children}
       </motion.div>
@@ -69,7 +88,6 @@ export function Reveal({
 }
 
 // --- 2. ANIMATED IMAGE FRAME (MELHORADO COM ZOOM) ---
-// Adicionei o código novo que você mandou, que tem o efeito de zoom no hover
 export function AnimatedImageFrame({
   children,
   className = "",
@@ -77,13 +95,13 @@ export function AnimatedImageFrame({
   children: React.ReactNode;
   className?: string;
 }) {
-  const isMobilePerformanceMode = useMobilePerformanceMode();
+  const isPerformanceMode = usePerformanceMode();
 
-  if (isMobilePerformanceMode) {
+  if (isPerformanceMode) {
     return (
-      <div className={`group relative overflow-hidden rounded-3xl ${className}`}>
+      <div className={`relative overflow-hidden rounded-3xl ${className}`}>
         <div className="h-full w-full">{children}</div>
-        <div className="pointer-events-none absolute inset-0 bg-black/10"></div>
+        <div className="pointer-events-none absolute inset-0 bg-black/10" />
       </div>
     );
   }
@@ -91,20 +109,18 @@ export function AnimatedImageFrame({
   return (
     <div className={`group relative overflow-hidden rounded-3xl ${className}`}>
       <motion.div
-        initial={{ scale: 1.15, opacity: 0 }}
+        initial={{ scale: 1.06, opacity: 0 }}
         whileInView={{ scale: 1, opacity: 1 }}
         viewport={{ once: true }}
-        transition={{ duration: 1.2, ease: [0.25, 0.4, 0.25, 1] }}
+        transition={{ duration: 0.55, ease: "easeOut" }}
         className="h-full w-full"
       >
-        {/* O "group-hover" faz o zoom lento ao passar o mouse */}
-        <div className="h-full w-full transition-transform duration-700 will-change-transform group-hover:scale-105">
+        <div className="h-full w-full transition-transform duration-500 group-hover:scale-[1.02]">
           {children}
         </div>
       </motion.div>
 
-      {/* Sombra leve que some ao passar o mouse */}
-      <div className="pointer-events-none absolute inset-0 bg-black/10 transition-opacity duration-500 group-hover:opacity-0"></div>
+      <div className="pointer-events-none absolute inset-0 bg-black/10 transition-opacity duration-300 group-hover:opacity-0" />
     </div>
   );
 }

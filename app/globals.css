@@ -15,16 +15,19 @@ body {
 
 @keyframes logo-marquee {
   from {
-    transform: translateX(0);
+    transform: translate3d(0, 0, 0);
   }
 
   to {
-    transform: translateX(-50%);
+    transform: translate3d(-50%, 0, 0);
   }
 }
 
 .logo-marquee-track {
-  animation: logo-marquee 80s linear infinite;
+    animation: logo-marquee 110s linear infinite;
+    will-change: transform;
+    transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
 }
 
 .logo-marquee:hover .logo-marquee-track {
@@ -271,4 +274,80 @@ html.oceano-dark .oceano-page [class*="border-blue-200"] {
 .oceano-page.oceano-dark .logo-marquee img:hover {
   filter: grayscale(0);
   opacity: 1;
+}
+
+@media (min-width: 2000px) {
+  .brand-logo-tile,
+  .brand-logo-tile img {
+    transition: none !important;
+  }
+
+  .brand-logo-tile img {
+    transform: none !important;
+  }
+
+  .brand-logo-tile img:hover {
+    transform: none !important;
+  }
+}
+
+@media (min-width: 2000px) {
+  .oceano-page *,
+  .oceano-page *::before,
+  .oceano-page *::after {
+    transition-duration: 0.01ms !important;
+  }
+
+  .oceano-page .blur-3xl,
+  .oceano-page .blur-2xl,
+  .oceano-page .blur-xl {
+    filter: none !important;
+  }
+
+  .oceano-page .backdrop-blur,
+  .oceano-page .backdrop-blur-md,
+  .oceano-page .backdrop-blur-lg,
+  .oceano-page [class*="backdrop-blur"] {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  .oceano-page .shadow-2xl,
+  .oceano-page .shadow-xl,
+  .oceano-page .drop-shadow-xl {
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.10) !important;
+    filter: none !important;
+  }
+
+  .oceano-page .group:hover img,
+  .oceano-page .group:hover video,
+  .oceano-page img:hover,
+  .oceano-page video:hover {
+    transform: none !important;
+  }
+
+  .oceano-page [class*="hover:scale"],
+  .oceano-page [class*="group-hover:scale"] {
+    transform: none !important;
+  }
+}
+
+@media (min-width: 2000px) {
+  .logo-marquee-track {
+    animation-duration: 140s;
+  }
+
+  .brand-logo-tile,
+  .brand-logo-tile img {
+    transition: none !important;
+  }
+
+  .brand-logo-tile img {
+    transform: none !important;
+  }
+
+  .brand-logo-tile img:hover {
+    transform: none !important;
+    filter: grayscale(1);
+  }
 }
