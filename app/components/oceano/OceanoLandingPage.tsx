@@ -840,7 +840,7 @@ export default function OceanoLandingPage({
       image: "/images/pulverizacao_agricola.jpeg",
       description:
         "Aplicações precisas para nutrição e proteção de culturas, com maior uniformidade e menor uso de insumos.",
-      price: "R$ 160,00",
+      price: "R$ 180,00",
       unit: "hectare",
       highlights: [
         "Cobertura eficiente em áreas extensas",
