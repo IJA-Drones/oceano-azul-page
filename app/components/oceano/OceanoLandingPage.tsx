@@ -426,10 +426,10 @@ function ServiceCard({
   index: number;
 }) {
   return (
-    <article className="relative isolate flex h-full min-h-[30rem] cursor-default flex-col overflow-hidden rounded-lg border border-slate-200/80 bg-white shadow-sm shadow-blue-950/5 transition-colors duration-300 hover:border-slate-300 hover:bg-slate-50/60 md:min-h-[34rem]">
+    <article className="relative isolate flex h-full min-h-[42rem] cursor-default flex-col overflow-hidden rounded-lg border border-slate-200/80 bg-white shadow-sm shadow-blue-950/5 transition-colors duration-300 hover:border-slate-300 hover:bg-slate-50/60">
       <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top_right,rgba(37,99,235,0.10),transparent_36%)] opacity-80" />
 
-      <div className="relative h-52 overflow-hidden bg-slate-900 sm:h-60">
+      <div className="relative h-52 shrink-0 overflow-hidden bg-slate-900 sm:h-60">
         <Image
           src={service.image}
           alt={service.title}
@@ -449,19 +449,19 @@ function ServiceCard({
       </div>
 
       <div className="flex flex-1 flex-col p-5 sm:p-6">
-        <h3 className="mb-3 text-xl font-extrabold leading-tight text-slate-900">
+        <h3 className="mb-3 text-xl font-extrabold leading-tight text-slate-900 lg:min-h-[3.5rem]">
           {service.title}
         </h3>
-        <p className="mb-5 text-sm leading-relaxed text-slate-600">
+        <p className="mb-5 text-sm leading-relaxed text-slate-600 lg:min-h-[5.25rem]">
           {service.description}
         </p>
-        <div className="mb-5 rounded-lg border border-blue-100 bg-blue-50/80 p-4">
+        <div className="mb-5 flex min-h-[8.5rem] flex-col justify-center rounded-lg border border-blue-100 bg-blue-50/80 p-4">
           <span className="block text-[0.68rem] font-extrabold uppercase tracking-[0.18em] text-blue-600">
             A partir de
           </span>
-          <strong className="mt-1 block text-2xl font-extrabold leading-none tracking-tight text-slate-950">
-            {service.price}
-            <span className="ml-1 align-baseline text-sm font-bold text-slate-500">
+          <strong className="mt-1 flex flex-wrap items-baseline gap-x-1 gap-y-1 text-2xl font-extrabold leading-none tracking-tight text-slate-950">
+            <span>{service.price}</span>
+            <span className="text-sm font-bold text-slate-500">
               / {service.unit}
             </span>
           </strong>
@@ -469,7 +469,7 @@ function ServiceCard({
             Valor inicial. Orçamento conforme escopo.
           </span>
         </div>
-        <ul className="mt-auto space-y-3 border-t border-slate-100 pt-5">
+        <ul className="space-y-3 border-t border-slate-100 pt-5">
           {service.highlights.map((highlight) => (
             <li
               key={highlight}
@@ -1512,78 +1512,78 @@ export default function OceanoLandingPage({
         className="fixed left-0 right-0 top-0 z-50 border-b border-gray-100 bg-white shadow-sm"
       >
         <Container>
-          <div className="flex h-20 items-center justify-between xl:h-24">
-            <div className="relative h-14 w-44 sm:h-16 sm:w-52 xl:h-20 xl:w-60">
+          <div className="flex h-18 items-center justify-between py-3 min-[1400px]:h-22">
+            <div className="relative h-12 w-36 shrink-0 sm:h-14 sm:w-44 min-[1400px]:h-16 min-[1400px]:w-52">
               <a href="#">
                 <Image
                   src="/images/oceano-azul-logo-sem-fundo.png"
                   alt="Logo oeceano azul"
                   fill
                   priority
-                  sizes="(min-width: 1280px) 240px, (min-width: 640px) 208px, 176px"
+                  sizes="(min-width: 1400px) 208px, (min-width: 640px) 176px, 144px"
                   className="object-contain object-left"
                 />
               </a>
             </div>
-            <div className="hidden items-center gap-5 xl:flex 2xl:gap-8">
+            <div className="hidden items-center gap-4 min-[1400px]:flex 2xl:gap-6">
               <a
                 href="#inicio"
-                className="text-sm font-medium text-slate-600 hover:text-blue-600 transition-colors"
+                className="whitespace-nowrap text-sm font-medium text-slate-600 transition-colors hover:text-blue-600"
               >
                 Início
               </a>
               <button
                 onClick={onNavigateToAboutOceano}
-                className="text-sm font-medium text-slate-600 hover:text-blue-600 transition-colors"
+                className="whitespace-nowrap text-sm font-medium text-slate-600 transition-colors hover:text-blue-600"
               >
                 Sobre Nós
               </button>
               <a
                 href="#servicos"
-                className="text-sm font-medium text-slate-600 hover:text-blue-600 transition-colors"
+                className="whitespace-nowrap text-sm font-medium text-slate-600 transition-colors hover:text-blue-600"
               >
                 Serviços
               </a>
               <a
                 href="#recebimento"
-                className="text-sm font-medium text-slate-600 hover:text-blue-600 transition-colors"
+                className="whitespace-nowrap text-sm font-medium text-slate-600 transition-colors hover:text-blue-600"
               >
                 Recebimento
               </a>
               <a
                 href="#beneficios"
-                className="text-sm font-medium text-slate-600 hover:text-blue-600 transition-colors"
+                className="whitespace-nowrap text-sm font-medium text-slate-600 transition-colors hover:text-blue-600"
               >
                 Benefícios
               </a>
               <a
                 href="#ficha-tecnica"
-                className="text-sm font-medium text-slate-600 hover:text-blue-600 transition-colors"
+                className="whitespace-nowrap text-sm font-medium text-slate-600 transition-colors hover:text-blue-600"
               >
                 Ficha Técnica
               </a>
               <a
                 href="#diferenciais"
-                className="text-sm font-medium text-slate-600 hover:text-blue-600 transition-colors"
+                className="whitespace-nowrap text-sm font-medium text-slate-600 transition-colors hover:text-blue-600"
               >
                 Diferenciais
               </a>
               <a
                 href="#cursos"
-                className="text-sm font-medium text-slate-600 hover:text-blue-600 transition-colors"
+                className="whitespace-nowrap text-sm font-medium text-slate-600 transition-colors hover:text-blue-600"
               >
                 Cursos
               </a>
               <a
                 href="#contato-oceano"
-                className="text-sm font-medium text-slate-600 hover:text-blue-600 transition-colors"
+                className="whitespace-nowrap text-sm font-medium text-slate-600 transition-colors hover:text-blue-600"
               >
                 Contato
               </a>
 
               <a href="#contato-oceano">
-                <button className="bg-blue-600 text-white px-6 py-2.5 rounded-full font-bold text-sm shadow-lg shadow-blue-600/20 hover:bg-blue-700 transition-all">
-                  Solicitar Orçamento
+                <button className="whitespace-nowrap rounded-full bg-blue-600 px-5 py-2.5 text-sm font-bold text-white shadow-lg shadow-blue-600/20 transition-all hover:bg-blue-700">
+                  Orçamento
                 </button>
               </a>
               <button
@@ -1597,7 +1597,7 @@ export default function OceanoLandingPage({
                 {isDarkMode ? <Sun size={18} /> : <Moon size={18} />}
               </button>
             </div>
-            <div className="flex items-center gap-2 xl:hidden">
+            <div className="flex items-center gap-2 min-[1400px]:hidden">
               <button
                 type="button"
                 onClick={() => setIsDarkMode((current) => !current)}
