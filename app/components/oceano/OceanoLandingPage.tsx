@@ -34,9 +34,13 @@ import {
   Target,
   TrendingUp,
   DollarSign,
+  CreditCard,
+  FileText,
   CheckCircle2,
   Wrench,
   Wifi,
+  Landmark,
+  Receipt,
 } from "lucide-react";
 
 import { FieldError, useLeadForm } from "../shared/lead-form";
@@ -415,6 +419,8 @@ function ServiceCard({
     area: string;
     image: string;
     description: string;
+    price: string;
+    unit: string;
     highlights: string[];
   };
   index: number;
@@ -449,6 +455,20 @@ function ServiceCard({
         <p className="mb-5 text-sm leading-relaxed text-slate-600">
           {service.description}
         </p>
+        <div className="mb-5 rounded-lg border border-blue-100 bg-blue-50/80 p-4">
+          <span className="block text-[0.68rem] font-extrabold uppercase tracking-[0.18em] text-blue-600">
+            A partir de
+          </span>
+          <strong className="mt-1 block text-2xl font-extrabold leading-none tracking-tight text-slate-950">
+            {service.price}
+            <span className="ml-1 align-baseline text-sm font-bold text-slate-500">
+              / {service.unit}
+            </span>
+          </strong>
+          <span className="mt-2 block text-xs font-semibold leading-relaxed text-slate-500">
+            Valor inicial. Orçamento conforme escopo.
+          </span>
+        </div>
         <ul className="mt-auto space-y-3 border-t border-slate-100 pt-5">
           {service.highlights.map((highlight) => (
             <li
@@ -463,6 +483,12 @@ function ServiceCard({
             </li>
           ))}
         </ul>
+        <a href="#contato-oceano" className="mt-6 w-full">
+          <button className="flex w-full items-center justify-center gap-2 rounded-full bg-blue-600 px-5 py-3 text-sm font-bold text-white shadow-lg shadow-blue-600/20 transition hover:bg-blue-700">
+            Solicitar orçamento
+            <ArrowRight size={16} />
+          </button>
+        </a>
       </div>
     </article>
   );
@@ -814,6 +840,8 @@ export default function OceanoLandingPage({
       image: "/images/pulverizacao_agricola.jpeg",
       description:
         "Aplicações precisas para nutrição e proteção de culturas, com maior uniformidade e menor uso de insumos.",
+      price: "R$ 160,00",
+      unit: "hectare",
       highlights: [
         "Cobertura eficiente em áreas extensas",
         "Redução de deriva e desperdício",
@@ -826,6 +854,8 @@ export default function OceanoLandingPage({
       image: "/images/aplicacao_biologicos.jpeg",
       description:
         "Entrega controlada de defensivos biológicos, sementes e sólidos com com alta precisão.",
+      price: "R$ 220,00",
+      unit: "hectare",
       highlights: [
         "Distribuição homogênea em superfícies críticas",
         "Operação segura e rastreável",
@@ -838,6 +868,8 @@ export default function OceanoLandingPage({
       image: "/images/geoprocessamento.jpeg",
       description:
         "Levantamentos aéreos que geram mapas úteis para tomada de decisão e análise de desempenho.",
+      price: "R$ 1.500,00",
+      unit: "levantamento",
       highlights: [
         "Dados georreferenciados de alta resolução",
         "Mapas temáticos e ortomosaicos",
@@ -850,6 +882,8 @@ export default function OceanoLandingPage({
       image: "/images/relatorio.jpeg",
       description:
         "Análises detalhadas e relatórios estratégicos para orientar investimentos e ações no campo e na cidade.",
+      price: "R$ 850,00",
+      unit: "relatório",
       highlights: [
         "Diagnóstico de áreas críticas",
         "Recomendações técnicas claras",
@@ -862,6 +896,8 @@ export default function OceanoLandingPage({
       image: "/images/pulverizacao_dengue.png",
       description:
         "Ações rápidas com pulverização urbana direcionada e captação de pontos de foco do Aedes aegypti.",
+      price: "R$ 2.800,00",
+      unit: "operação",
       highlights: [
         "Aplicação precisa em locais de difícil acesso",
         "Integração com programas de saúde pública",
@@ -874,6 +910,8 @@ export default function OceanoLandingPage({
       image: "/images/monitoramento_dengue.jpeg",
       description:
         "Monitoramento aéreo dedicado para identificar áreas de risco e apoiar ações preventivas.",
+      price: "R$ 1.200,00",
+      unit: "diária",
       highlights: [
         "Mapeamento de focos e reservatórios",
         "Relatórios para fiscalização local",
@@ -886,6 +924,8 @@ export default function OceanoLandingPage({
       image: "/images/gestao_vegetativa_MIV.png",
       description:
         "Gestão vegetativa através do controle seletivo de vegetação, com economia na manutenção.",
+      price: "R$ 95,00",
+      unit: "hectare",
       highlights: [
         "Avaliação da saúde vegetal",
         "Planejamento de corte e conservação",
@@ -898,6 +938,8 @@ export default function OceanoLandingPage({
       image: "/images/inspecao_torres.jpeg",
       description:
         "Inspeções aéreas de alta segurança para torres, linhas de transmissão e ativos críticos.",
+      price: "R$ 450,00",
+      unit: "torre",
       highlights: [
         "Detecção de falhas e corrosão",
         "Menor tempo de parada de ativos",
@@ -910,6 +952,8 @@ export default function OceanoLandingPage({
       image: "/images/georreferenciamento.jpeg",
       description:
         "Serviços de posicionamento preciso para projetos urbanos, topografia e obras civis.",
+      price: "R$ 2.200,00",
+      unit: "projeto",
       highlights: [
         "Coleta de pontos GNSS acurada",
         "Superfícies e limites precisos",
@@ -922,6 +966,8 @@ export default function OceanoLandingPage({
       image: "/images/monitoramento_festas.jpeg",
       description:
         "Soluções de vigilância aérea para apoiar a gestão de grandes eventos e operações de segurança.",
+      price: "R$ 1.800,00",
+      unit: "evento",
       highlights: [
         "Cobertura aérea em tempo real",
         "Visualização de ambientes complexos",
@@ -934,6 +980,8 @@ export default function OceanoLandingPage({
       image: "/images/limpeza_placas.jpeg",
       description:
         "Manutenção aérea eficiente para aumentar a performance de usinas solares sem riscos à estrutura.",
+      price: "R$ 12,00",
+      unit: "placa",
       highlights: [
         "Remoção suave de sujeira e poeira",
         "Redução de perdas de geração",
@@ -946,6 +994,8 @@ export default function OceanoLandingPage({
       image: "/images/drones_empresa.jpeg",
       description:
         "Serviço técnico para inspeção, ajustes e manutenção preventiva de drones operacionais.",
+      price: "R$ 350,00",
+      unit: "manutenção",
       highlights: [
         "Diagnóstico de componentes e sensores",
         "Ajustes para voo seguro e estável",
@@ -961,6 +1011,64 @@ export default function OceanoLandingPage({
   const additionalSolutions = solutionCards.filter(
     (service) => !featuredSolutions.some((featured) => featured.title === service.title)
   );
+  const paymentMethods = [
+    {
+      title: "Transferência Bancária",
+      description: "Pagamento diretamente para a conta bancária da Oceano Azul.",
+      highlight: "Confirmação rápida",
+      icon: Landmark,
+      items: [
+        "Dados enviados após aprovação do orçamento",
+        "Envio de comprovante para identificação",
+        "Condições específicas conforme contrato",
+      ],
+    },
+    {
+      title: "PIX",
+      description: "Pagamento instantâneo através do PIX.",
+      highlight: "Confirmação imediata",
+      icon: Zap,
+      items: [
+        "Chave informada após fechamento comercial",
+        "Titularidade confirmada pela equipe financeira",
+        "Comprovante pode ser solicitado",
+      ],
+    },
+    {
+      title: "Boleto Bancário",
+      description: "Possibilidade de emissão de boleto para clientes e empresas.",
+      highlight: "Vencimento flexível",
+      icon: Receipt,
+      items: [
+        "Prazos definidos no orçamento",
+        "Opção para pessoa física ou jurídica",
+        "Compensação conforme rede bancária",
+      ],
+    },
+    {
+      title: "Cartão de Crédito",
+      description: "Possibilidade de pagamento utilizando cartão de crédito.",
+      highlight: "Parcelamento disponível",
+      icon: CreditCard,
+      items: [
+        "Parcelas conforme valor do projeto",
+        "Bandeiras aceitas informadas na cobrança",
+        "Condições com ou sem juros sob consulta",
+      ],
+    },
+    {
+      title: "Empenho / Contrato",
+      description:
+        "Modalidade destinada a prefeituras, órgãos públicos, instituições e grandes empresas.",
+      highlight: "Condições personalizadas",
+      icon: FileText,
+      items: [
+        "Atendimento a regras de órgãos públicos",
+        "Documentação analisada por projeto",
+        "Prazos alinhados às condições contratuais",
+      ],
+    },
+  ];
   const technicalSheet = [
     {
       label: "Empresa",
@@ -1437,6 +1545,12 @@ export default function OceanoLandingPage({
                 Serviços
               </a>
               <a
+                href="#recebimento"
+                className="text-sm font-medium text-slate-600 hover:text-blue-600 transition-colors"
+              >
+                Recebimento
+              </a>
+              <a
                 href="#beneficios"
                 className="text-sm font-medium text-slate-600 hover:text-blue-600 transition-colors"
               >
@@ -1520,6 +1634,13 @@ export default function OceanoLandingPage({
                 className="block rounded-xl px-3 py-2 font-medium text-slate-600"
               >
                 Serviços
+              </a>
+              <a
+                href="#recebimento"
+                onClick={() => setMobileMenuOpen(false)}
+                className="block rounded-xl px-3 py-2 font-medium text-slate-600"
+              >
+                Formas de Recebimento
               </a>
               <a
                 href="#ficha-tecnica"
@@ -1796,6 +1917,90 @@ export default function OceanoLandingPage({
             primaryLabel="Planejar operação com drones"
             secondaryLabel="Solicitar avaliação técnica"
           />
+        </Container>
+      </section>
+
+      {/* FORMAS DE RECEBIMENTO */}
+      <section
+        id="recebimento"
+        className="border-t border-slate-200/70 bg-white py-20"
+      >
+        <Container>
+          <div className="mx-auto mb-14 flex max-w-4xl flex-col items-center text-center">
+            <Reveal width="100%">
+              <span className="mb-6 inline-flex items-center gap-2 rounded-full border border-blue-100 bg-blue-50 px-3 py-1 text-xs font-bold uppercase tracking-wider text-blue-600">
+                <DollarSign size={12} /> Formas de Recebimento
+              </span>
+            </Reveal>
+            <Reveal delay={0.1} width="100%">
+              <h2 className="mb-6 text-3xl font-extrabold tracking-tight text-slate-900 md:text-5xl">
+                Facilidade e segurança <br />
+                <span className="text-blue-600">para você</span>
+              </h2>
+            </Reveal>
+            <Reveal delay={0.2}>
+              <p className="mx-auto max-w-3xl text-lg leading-relaxed text-slate-600">
+                Trabalhamos com diferentes formas de pagamento para atender
+                empresas, produtores, instituições e órgãos públicos de maneira
+                prática e segura.
+              </p>
+            </Reveal>
+          </div>
+
+          <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-5">
+            {paymentMethods.map((method, index) => (
+              <Reveal
+                key={method.title}
+                delay={index * 0.05}
+                width="100%"
+                className="h-full"
+              >
+                <article className="relative isolate flex h-full min-h-[22rem] cursor-default flex-col overflow-hidden rounded-lg border border-slate-200/80 bg-white p-5 shadow-sm shadow-blue-950/5 transition-colors duration-300 hover:border-blue-200 hover:bg-slate-50/70">
+                  <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top_right,rgba(37,99,235,0.10),transparent_40%)]" />
+                  <div className="mb-5 flex items-start justify-between gap-4">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-50 text-blue-600">
+                      <method.icon size={22} />
+                    </div>
+                    <span className="text-xs font-extrabold tracking-wider text-slate-300">
+                      0{index + 1}
+                    </span>
+                  </div>
+                  <h3 className="text-lg font-extrabold leading-tight text-slate-950">
+                    {method.title}
+                  </h3>
+                  <p className="mt-3 text-sm leading-relaxed text-slate-600">
+                    {method.description}
+                  </p>
+                  <span className="mt-5 inline-flex w-fit rounded-full border border-blue-100 bg-blue-50 px-3 py-1 text-xs font-extrabold uppercase tracking-wide text-blue-700">
+                    {method.highlight}
+                  </span>
+                  <ul className="mt-auto space-y-3 border-t border-slate-100 pt-5">
+                    {method.items.map((item) => (
+                      <li
+                        key={item}
+                        className="flex items-start gap-3 text-sm leading-relaxed text-slate-600"
+                      >
+                        <CheckCircle2
+                          size={15}
+                          className="mt-1 shrink-0 text-blue-600"
+                        />
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </article>
+              </Reveal>
+            ))}
+          </div>
+
+          <Reveal width="100%">
+            <div className="mt-10 rounded-lg border border-blue-100 bg-blue-50/80 p-5 text-center shadow-sm shadow-blue-950/5 sm:p-6">
+              <p className="mx-auto max-w-3xl text-sm font-semibold leading-relaxed text-slate-700">
+                Formas de pagamento, parcelamento e prazos estão sujeitos às
+                condições comerciais estabelecidas para cada projeto.
+              </p>
+            </div>
+          </Reveal>
         </Container>
       </section>
 
