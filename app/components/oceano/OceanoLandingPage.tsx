@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
+import OceanoNavbar from "./OceanoNavbar";
 import courseBannerImage from "../../../public/images/curso-pilotagem-drones-banner.png";
 import { motion } from "framer-motion";
 import {
@@ -11,7 +12,6 @@ import {
   CalendarDays,
   GraduationCap,
   BookOpen,
-  Menu,
   X,
   Play,
   Phone,
@@ -19,13 +19,11 @@ import {
   Instagram,
   Linkedin,
   MapPin,
-  Moon,
   Users,
   Shield,
   Zap,
   ChevronDown,
   Sparkles,
-  Sun,
   Bot,
   Clock,
   Microscope,
@@ -828,7 +826,6 @@ export default function OceanoLandingPage({
 }: {
   onNavigateToAboutOceano: () => void;
 }) {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
   const hasMountedTheme = React.useRef(false);
   const [showAllSolutions, setShowAllSolutions] = useState(false);
@@ -1479,10 +1476,6 @@ export default function OceanoLandingPage({
     };
   }, [selectedNews]);
 
-  const themeLabel = isDarkMode
-    ? "Alternar para modo claro"
-    : "Alternar para modo escuro";
-
   return (
     <div
       className={`oceano-page min-h-screen font-sans transition-colors duration-500 ${
@@ -1492,186 +1485,11 @@ export default function OceanoLandingPage({
       }`}
       data-theme={isDarkMode ? "dark" : "light"}
     >
-      {/* NAVBAR */}
-      <motion.nav
-        initial={{ y: -100 }}
-        animate={{ y: 0 }}
-        transition={{ duration: 0.6 }}
-        className="fixed left-0 right-0 top-0 z-50 border-b border-gray-100 bg-white shadow-sm"
-      >
-        <Container>
-          <div className="flex h-18 items-center justify-between py-3 min-[1400px]:h-22">
-            <div className="relative h-12 w-36 shrink-0 sm:h-14 sm:w-44 min-[1400px]:h-16 min-[1400px]:w-52">
-              <a href="#">
-                <Image
-                  src="/images/oceano-azul-logo-sem-fundo.png"
-                  alt="Logo oeceano azul"
-                  fill
-                  priority
-                  sizes="(min-width: 1400px) 208px, (min-width: 640px) 176px, 144px"
-                  className="object-contain object-left"
-                />
-              </a>
-            </div>
-            <div className="hidden items-center gap-4 min-[1400px]:flex 2xl:gap-6">
-              <a
-                href="#inicio"
-                className="whitespace-nowrap text-sm font-medium text-slate-600 transition-colors hover:text-blue-600"
-              >
-                Início
-              </a>
-              <button
-                onClick={onNavigateToAboutOceano}
-                className="whitespace-nowrap text-sm font-medium text-slate-600 transition-colors hover:text-blue-600"
-              >
-                Sobre Nós
-              </button>
-              <a
-                href="#servicos"
-                className="whitespace-nowrap text-sm font-medium text-slate-600 transition-colors hover:text-blue-600"
-              >
-                Serviços
-              </a>
-              <a
-                href="#recebimento"
-                className="whitespace-nowrap text-sm font-medium text-slate-600 transition-colors hover:text-blue-600"
-              >
-                Recebimento
-              </a>
-              <a
-                href="#beneficios"
-                className="whitespace-nowrap text-sm font-medium text-slate-600 transition-colors hover:text-blue-600"
-              >
-                Benefícios
-              </a>
-              <a
-                href="#ficha-tecnica"
-                className="whitespace-nowrap text-sm font-medium text-slate-600 transition-colors hover:text-blue-600"
-              >
-                Ficha Técnica
-              </a>
-              <a
-                href="#diferenciais"
-                className="whitespace-nowrap text-sm font-medium text-slate-600 transition-colors hover:text-blue-600"
-              >
-                Diferenciais
-              </a>
-              <a
-                href="#cursos"
-                className="whitespace-nowrap text-sm font-medium text-slate-600 transition-colors hover:text-blue-600"
-              >
-                Cursos
-              </a>
-              <a
-                href="#contato-oceano"
-                className="whitespace-nowrap text-sm font-medium text-slate-600 transition-colors hover:text-blue-600"
-              >
-                Contato
-              </a>
-
-              <a href="#contato-oceano">
-                <button className="whitespace-nowrap rounded-full bg-blue-600 px-5 py-2.5 text-sm font-bold text-white shadow-lg shadow-blue-600/20 transition-all hover:bg-blue-700">
-                  Orçamento
-                </button>
-              </a>
-              <button
-                type="button"
-                onClick={() => setIsDarkMode((current) => !current)}
-                className="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-600 shadow-sm transition hover:border-blue-200 hover:bg-blue-50 hover:text-blue-700"
-                aria-label={themeLabel}
-                aria-pressed={isDarkMode}
-                title={themeLabel}
-              >
-                {isDarkMode ? <Sun size={18} /> : <Moon size={18} />}
-              </button>
-            </div>
-            <div className="flex items-center gap-2 min-[1400px]:hidden">
-              <button
-                type="button"
-                onClick={() => setIsDarkMode((current) => !current)}
-                className="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-600 shadow-sm transition hover:border-blue-200 hover:bg-blue-50 hover:text-blue-700"
-                aria-label={themeLabel}
-                aria-pressed={isDarkMode}
-                title={themeLabel}
-              >
-                {isDarkMode ? <Sun size={18} /> : <Moon size={18} />}
-              </button>
-              <button
-                className="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 text-slate-600"
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                type="button"
-                aria-label={mobileMenuOpen ? "Fechar menu" : "Abrir menu"}
-                aria-expanded={mobileMenuOpen}
-              >
-                {mobileMenuOpen ? <X /> : <Menu />}
-              </button>
-            </div>
-          </div>
-          {mobileMenuOpen && (
-            <div className="space-y-2 border-t border-slate-100 bg-white py-4 xl:hidden">
-              <a
-                href="#inicio"
-                onClick={() => setMobileMenuOpen(false)}
-                className="block rounded-xl px-3 py-2 font-medium text-slate-600"
-              >
-                Início
-              </a>
-              <a
-                href="#servicos"
-                onClick={() => setMobileMenuOpen(false)}
-                className="block rounded-xl px-3 py-2 font-medium text-slate-600"
-              >
-                Serviços
-              </a>
-              <a
-                href="#recebimento"
-                onClick={() => setMobileMenuOpen(false)}
-                className="block rounded-xl px-3 py-2 font-medium text-slate-600"
-              >
-                Formas de Recebimento
-              </a>
-              <a
-                href="#ficha-tecnica"
-                onClick={() => setMobileMenuOpen(false)}
-                className="block rounded-xl px-3 py-2 font-medium text-slate-600"
-              >
-                Ficha Técnica
-              </a>
-              <a
-                href="#diferenciais"
-                onClick={() => setMobileMenuOpen(false)}
-                className="block rounded-xl px-3 py-2 font-medium text-slate-600"
-              >
-                Diferenciais
-              </a>
-              <a
-                href="#cursos"
-                onClick={() => setMobileMenuOpen(false)}
-                className="block rounded-xl px-3 py-2 font-medium text-slate-600"
-              >
-                Cursos
-              </a>
-              <button
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  onNavigateToAboutOceano();
-                }}
-                className="w-full rounded-xl px-3 py-2 text-left font-medium text-slate-600"
-                type="button"
-              >
-                Sobre Nós
-              </button>
-              <a
-                href="#contato-oceano"
-                onClick={() => setMobileMenuOpen(false)}
-                className="block rounded-xl px-3 py-2 font-bold text-blue-600"
-              >
-                Solicitar Orçamento
-              </a>
-            </div>
-          )}
-        </Container>
-      </motion.nav>
+      <OceanoNavbar
+        isDarkMode={isDarkMode}
+        onToggleTheme={() => setIsDarkMode((current) => !current)}
+        onNavigateToAboutOceano={onNavigateToAboutOceano}
+      />
 
       {/* HERO SECTION */}
       <section
@@ -1935,34 +1753,34 @@ export default function OceanoLandingPage({
             </Reveal>
           </div>
 
-          <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-5">
+          <div className="payment-methods-grid grid gap-5 md:grid-cols-2 xl:grid-cols-5">
             {paymentMethods.map((method, index) => (
               <Reveal
                 key={method.title}
                 delay={index * 0.05}
                 width="100%"
-                className="h-full"
+                className="payment-method-reveal h-full"
               >
-                <article className="relative isolate flex h-full min-h-[22rem] cursor-default flex-col overflow-hidden rounded-lg border border-slate-200/80 bg-white p-5 shadow-sm shadow-blue-950/5 transition-colors duration-300 hover:border-blue-200 hover:bg-slate-50/70">
+                <article className="payment-method-card relative isolate h-full cursor-default overflow-hidden rounded-lg border border-slate-200/80 bg-white p-5 shadow-sm shadow-blue-950/5 transition-colors duration-300 hover:border-slate-300 hover:bg-slate-50/60">
                   <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top_right,rgba(37,99,235,0.10),transparent_40%)]" />
-                  <div className="mb-5 flex items-start justify-between gap-4">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-50 text-blue-600">
+                  <div className="flex items-start justify-between gap-4">
+                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-blue-50 text-blue-600">
                       <method.icon size={22} />
                     </div>
                     <span className="text-xs font-extrabold tracking-wider text-slate-300">
                       0{index + 1}
                     </span>
                   </div>
-                  <h3 className="text-lg font-extrabold leading-tight text-slate-950">
+                  <h3 className="text-lg font-extrabold leading-tight text-slate-900">
                     {method.title}
                   </h3>
-                  <p className="mt-3 text-sm leading-relaxed text-slate-600">
+                  <p className="text-sm leading-relaxed text-slate-600">
                     {method.description}
                   </p>
-                  <span className="mt-5 inline-flex w-fit rounded-full border border-blue-100 bg-blue-50 px-3 py-1 text-xs font-extrabold uppercase tracking-wide text-blue-700">
+                  <span className="inline-flex min-h-11 w-full items-center justify-center rounded-full border border-blue-100 bg-blue-50 px-3 py-2 text-center text-xs font-extrabold uppercase leading-relaxed tracking-wide text-blue-700">
                     {method.highlight}
                   </span>
-                  <ul className="mt-auto space-y-3 border-t border-slate-100 pt-5">
+                  <ul className="payment-method-details border-t border-slate-100 pt-5">
                     {method.items.map((item) => (
                       <li
                         key={item}

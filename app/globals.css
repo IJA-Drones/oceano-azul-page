@@ -75,6 +75,25 @@ body {
   color-scheme: light;
 }
 
+.oceano-page section[id] {
+  scroll-margin-top: 5rem;
+}
+
+/* Share content rows through Reveal's wrappers so payment cards stay aligned. */
+.payment-methods-grid .payment-method-reveal,
+.payment-methods-grid .payment-method-reveal > div,
+.payment-method-card {
+  display: grid;
+  grid-row: span 7;
+  grid-template-rows: subgrid;
+}
+
+.payment-method-details {
+  display: grid;
+  grid-row: span 3;
+  grid-template-rows: subgrid;
+}
+
 .oceano-page.oceano-dark {
   color-scheme: dark;
   background:
