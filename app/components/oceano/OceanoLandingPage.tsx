@@ -31,13 +31,13 @@ import {
   Target,
   TrendingUp,
   DollarSign,
-  CreditCard,
-  FileText,
+  // CreditCard, // Reativar com as formas de pagamento após validação.
+  // FileText,
   CheckCircle2,
   Wrench,
   Wifi,
-  Landmark,
-  Receipt,
+  // Landmark,
+  // Receipt,
 } from "lucide-react";
 
 import { FieldError, useLeadForm } from "../shared/lead-form";
@@ -419,14 +419,15 @@ function ServiceCard({
     area: string;
     image: string;
     description: string;
-    price: string;
-    unit: string;
+    // Reativar com os preços em solutionCards e o bloco de preço abaixo.
+    // price: string;
+    // unit: string;
     highlights: string[];
   };
   index: number;
 }) {
   return (
-    <article className="relative isolate flex h-full min-h-[42rem] cursor-default flex-col overflow-hidden rounded-lg border border-slate-200/80 bg-white shadow-sm shadow-blue-950/5 transition-colors duration-300 hover:border-slate-300 hover:bg-slate-50/60">
+    <article className="relative isolate flex h-full cursor-default flex-col overflow-hidden rounded-lg border border-slate-200/80 bg-white shadow-sm shadow-blue-950/5 transition-colors duration-300 hover:border-slate-300 hover:bg-slate-50/60">
       <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top_right,rgba(37,99,235,0.10),transparent_36%)] opacity-80" />
 
       <div className="relative h-52 shrink-0 overflow-hidden bg-slate-900 sm:h-60">
@@ -455,6 +456,7 @@ function ServiceCard({
         <p className="mb-5 text-sm leading-relaxed text-slate-600 lg:min-h-[5.25rem]">
           {service.description}
         </p>
+        {/* Preços pendentes de validação. Reativar junto dos campos price/unit.
         <div className="mb-5 flex min-h-[8.5rem] flex-col justify-center rounded-lg border border-blue-100 bg-blue-50/80 p-4">
           <span className="block text-[0.68rem] font-extrabold uppercase tracking-[0.18em] text-blue-600">
             A partir de
@@ -469,6 +471,7 @@ function ServiceCard({
             Valor inicial. Orçamento conforme escopo.
           </span>
         </div>
+        */}
         <ul className="space-y-3 border-t border-slate-100 pt-5">
           {service.highlights.map((highlight) => (
             <li
@@ -483,7 +486,7 @@ function ServiceCard({
             </li>
           ))}
         </ul>
-        <a href="#contato-oceano" className="mt-6 w-full">
+        <a href="#contato-oceano" className="mt-auto w-full pt-6">
           <button className="flex w-full items-center justify-center gap-2 rounded-full bg-blue-600 px-5 py-3 text-sm font-bold text-white shadow-lg shadow-blue-600/20 transition hover:bg-blue-700">
             Solicitar orçamento
             <ArrowRight size={16} />
@@ -832,6 +835,7 @@ export default function OceanoLandingPage({
   const [showAllSolutions, setShowAllSolutions] = useState(false);
   const { state, handleSubmit, resetForm } = useLeadForm("Oceano Azul");
 
+  // Preços e unidades preservados abaixo; reativar somente após validação comercial.
   const solutionCards = [
     {
       title: "Pulverização Agrícola com Drones",
@@ -839,8 +843,8 @@ export default function OceanoLandingPage({
       image: "/images/pulverizacao_agricola.jpeg",
       description:
         "Aplicações precisas para nutrição e proteção de culturas, com maior uniformidade e menor uso de insumos.",
-      price: "R$ 180,00",
-      unit: "hectare",
+      // price: "R$ 180,00",
+      // unit: "hectare",
       highlights: [
         "Cobertura eficiente em áreas extensas",
         "Redução de deriva e desperdício",
@@ -853,8 +857,8 @@ export default function OceanoLandingPage({
       image: "/images/aplicacao_biologicos.jpeg",
       description:
         "Entrega controlada de defensivos biológicos, sementes e sólidos com com alta precisão.",
-      price: "R$ 220,00",
-      unit: "hectare",
+      // price: "R$ 220,00",
+      // unit: "hectare",
       highlights: [
         "Distribuição homogênea em superfícies críticas",
         "Operação segura e rastreável",
@@ -867,8 +871,8 @@ export default function OceanoLandingPage({
       image: "/images/geoprocessamento.jpeg",
       description:
         "Levantamentos aéreos que geram mapas úteis para tomada de decisão e análise de desempenho.",
-      price: "R$ 1.500,00",
-      unit: "levantamento",
+      // price: "R$ 1.500,00",
+      // unit: "levantamento",
       highlights: [
         "Dados georreferenciados de alta resolução",
         "Mapas temáticos e ortomosaicos",
@@ -881,8 +885,8 @@ export default function OceanoLandingPage({
       image: "/images/relatorio.jpeg",
       description:
         "Análises detalhadas e relatórios estratégicos para orientar investimentos e ações no campo e na cidade.",
-      price: "R$ 850,00",
-      unit: "relatório",
+      // price: "R$ 850,00",
+      // unit: "relatório",
       highlights: [
         "Diagnóstico de áreas críticas",
         "Recomendações técnicas claras",
@@ -895,8 +899,8 @@ export default function OceanoLandingPage({
       image: "/images/pulverizacao_dengue.png",
       description:
         "Ações rápidas com pulverização urbana direcionada e captação de pontos de foco do Aedes aegypti.",
-      price: "R$ 2.800,00",
-      unit: "operação",
+      // price: "R$ 2.800,00",
+      // unit: "operação",
       highlights: [
         "Aplicação precisa em locais de difícil acesso",
         "Integração com programas de saúde pública",
@@ -909,8 +913,8 @@ export default function OceanoLandingPage({
       image: "/images/monitoramento_dengue.jpeg",
       description:
         "Monitoramento aéreo dedicado para identificar áreas de risco e apoiar ações preventivas.",
-      price: "R$ 1.200,00",
-      unit: "diária",
+      // price: "R$ 1.200,00",
+      // unit: "diária",
       highlights: [
         "Mapeamento de focos e reservatórios",
         "Relatórios para fiscalização local",
@@ -923,8 +927,8 @@ export default function OceanoLandingPage({
       image: "/images/gestao_vegetativa_MIV.png",
       description:
         "Gestão vegetativa através do controle seletivo de vegetação, com economia na manutenção.",
-      price: "R$ 95,00",
-      unit: "hectare",
+      // price: "R$ 95,00",
+      // unit: "hectare",
       highlights: [
         "Avaliação da saúde vegetal",
         "Planejamento de corte e conservação",
@@ -937,8 +941,8 @@ export default function OceanoLandingPage({
       image: "/images/inspecao_torres.jpeg",
       description:
         "Inspeções aéreas de alta segurança para torres, linhas de transmissão e ativos críticos.",
-      price: "R$ 450,00",
-      unit: "torre",
+      // price: "R$ 450,00",
+      // unit: "torre",
       highlights: [
         "Detecção de falhas e corrosão",
         "Menor tempo de parada de ativos",
@@ -951,8 +955,8 @@ export default function OceanoLandingPage({
       image: "/images/georreferenciamento.jpeg",
       description:
         "Serviços de posicionamento preciso para projetos urbanos, topografia e obras civis.",
-      price: "R$ 2.200,00",
-      unit: "projeto",
+      // price: "R$ 2.200,00",
+      // unit: "projeto",
       highlights: [
         "Coleta de pontos GNSS acurada",
         "Superfícies e limites precisos",
@@ -965,8 +969,8 @@ export default function OceanoLandingPage({
       image: "/images/monitoramento_festas.jpeg",
       description:
         "Soluções de vigilância aérea para apoiar a gestão de grandes eventos e operações de segurança.",
-      price: "R$ 1.800,00",
-      unit: "evento",
+      // price: "R$ 1.800,00",
+      // unit: "evento",
       highlights: [
         "Cobertura aérea em tempo real",
         "Visualização de ambientes complexos",
@@ -979,8 +983,8 @@ export default function OceanoLandingPage({
       image: "/images/limpeza_placas.jpeg",
       description:
         "Manutenção aérea eficiente para aumentar a performance de usinas solares sem riscos à estrutura.",
-      price: "R$ 12,00",
-      unit: "placa",
+      // price: "R$ 12,00",
+      // unit: "placa",
       highlights: [
         "Remoção suave de sujeira e poeira",
         "Redução de perdas de geração",
@@ -993,8 +997,8 @@ export default function OceanoLandingPage({
       image: "/images/drones_empresa.jpeg",
       description:
         "Serviço técnico para inspeção, ajustes e manutenção preventiva de drones operacionais.",
-      price: "R$ 350,00",
-      unit: "manutenção",
+      // price: "R$ 350,00",
+      // unit: "manutenção",
       highlights: [
         "Diagnóstico de componentes e sensores",
         "Ajustes para voo seguro e estável",
@@ -1010,6 +1014,8 @@ export default function OceanoLandingPage({
   const additionalSolutions = solutionCards.filter(
     (service) => !featuredSolutions.some((featured) => featured.title === service.title)
   );
+  /* Formas de pagamento pendentes de validação.
+   * Reativar este array, os ícones comentados, a seção #recebimento e o item no menu.
   const paymentMethods = [
     {
       title: "Transferência Bancária",
@@ -1068,6 +1074,7 @@ export default function OceanoLandingPage({
       ],
     },
   ];
+  */
   const technicalSheet = [
     {
       label: "Empresa",
@@ -1731,7 +1738,8 @@ export default function OceanoLandingPage({
         </Container>
       </section>
 
-      {/* FORMAS DE RECEBIMENTO */}
+      {/* FORMAS DE RECEBIMENTO — pendentes de validação comercial.
+          Para reativar, descomentar paymentMethods, seus ícones e o item no menu.
       <section
         id="recebimento"
         className="border-t border-slate-200/70 bg-white py-20"
@@ -1814,6 +1822,7 @@ export default function OceanoLandingPage({
           </Reveal>
         </Container>
       </section>
+      */}
 
       {/* FICHA TÉCNICA */}
       <section

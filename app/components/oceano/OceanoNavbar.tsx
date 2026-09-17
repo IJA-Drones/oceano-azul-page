@@ -73,7 +73,8 @@ export default function OceanoNavbar({
       items: [
         { label: "Nossos Serviços", href: "#servicos" },
         { label: "Benefícios", href: "#beneficios" },
-        { label: "Formas de Pagamento", href: "#recebimento" },
+        // Reativar junto da seção de pagamentos após validação comercial.
+        // { label: "Formas de Pagamento", href: "#recebimento" },
       ],
     },
   ];
