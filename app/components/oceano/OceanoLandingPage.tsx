@@ -49,6 +49,7 @@ import {
 } from "../ui-kit";
 
 const coursePageUrl = "https://cursos.oceanoazuldrones.com.br/p/";
+const coursesComingSoon = true;
 
 const partnerBrands = [
   { name: "Agrovale", image: "/images/marcas/agrovale.png" },
@@ -1392,9 +1393,13 @@ export default function OceanoLandingPage({
     {
       category: "Educação",
       date: "Cursos e capacitação",
-      title: "Conheça a Oceano Azul Drones Academy",
-      description:
-        "A Oceano Azul tem sua própria página de cursos. Conheça nossa formação em pilotagem de drones e confira os detalhes na Oceano Azul Drones Academy.",
+      title: coursesComingSoon
+        ? "Em breve: Oceano Azul Drones Academy"
+        : "Conheça a Oceano Azul Drones Academy",
+      description: coursesComingSoon
+        ? "Estamos preparando os cursos da Oceano Azul Drones Academy. Em breve, você poderá conferir todas as informações por aqui."
+        : "A Oceano Azul tem sua própria página de cursos. Conheça nossa formação em pilotagem de drones e confira os detalhes na Oceano Azul Drones Academy.",
+      isComingSoon: coursesComingSoon,
       href: coursePageUrl,
       sourceLabel: "Oceano Azul Drones Academy",
       media: {
@@ -2162,15 +2167,22 @@ export default function OceanoLandingPage({
                         </li>
                       ))}
                     </ul>
-                    <a
-                      href={coursePageUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex w-full items-center justify-center gap-2 rounded-full bg-blue-600 px-7 py-3 text-sm font-bold text-white shadow-lg shadow-blue-600/25 transition-all hover:bg-blue-700 sm:w-fit"
-                    >
-                      Conhecer o curso
-                      <ArrowUpRight size={16} />
-                    </a>
+                    {coursesComingSoon ? (
+                      <span className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-blue-100 bg-blue-50 px-7 py-3 text-sm font-bold text-blue-700 sm:w-fit">
+                        <Clock size={16} aria-hidden="true" />
+                        Em breve
+                      </span>
+                    ) : (
+                      <a
+                        href={coursePageUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex w-full items-center justify-center gap-2 rounded-full bg-blue-600 px-7 py-3 text-sm font-bold text-white shadow-lg shadow-blue-600/25 transition-all hover:bg-blue-700 sm:w-fit"
+                      >
+                        Conhecer o curso
+                        <ArrowUpRight size={16} />
+                      </a>
+                    )}
                   </div>
                 </article>
               </Reveal>
@@ -2376,19 +2388,28 @@ export default function OceanoLandingPage({
               <p className="mt-5 text-base leading-relaxed text-slate-600">
                 {selectedNews.description}
               </p>
-              <p className="mt-5 text-sm leading-relaxed text-slate-500">
-                Este card resume uma fonte pública e mantém o link original
-                disponível para consulta, validação e leitura completa.
-              </p>
-              <a
-                href={selectedNews.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full bg-blue-600 px-6 py-3 text-center text-sm font-bold text-white shadow-lg shadow-blue-600/25 transition hover:bg-blue-700 sm:mt-8 sm:w-auto"
-              >
-                Ver fonte: {selectedNews.sourceLabel}
-                <ArrowUpRight size={16} />
-              </a>
+              {selectedNews.isComingSoon ? (
+                <span className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full border border-blue-100 bg-blue-50 px-6 py-3 text-sm font-bold text-blue-700 sm:mt-8 sm:w-auto">
+                  <Clock size={16} aria-hidden="true" />
+                  Em breve
+                </span>
+              ) : (
+                <>
+                  <p className="mt-5 text-sm leading-relaxed text-slate-500">
+                    Este card resume uma fonte pública e mantém o link original
+                    disponível para consulta, validação e leitura completa.
+                  </p>
+                  <a
+                    href={selectedNews.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full bg-blue-600 px-6 py-3 text-center text-sm font-bold text-white shadow-lg shadow-blue-600/25 transition hover:bg-blue-700 sm:mt-8 sm:w-auto"
+                  >
+                    Ver fonte: {selectedNews.sourceLabel}
+                    <ArrowUpRight size={16} />
+                  </a>
+                </>
+              )}
             </div>
           </div>
         </div>
