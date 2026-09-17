@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-import coursePilotImage from "../../../public/images/curso_piloto.jpeg";
+import courseBannerImage from "../../../public/images/curso-pilotagem-drones-banner.png";
 import { motion } from "framer-motion";
 import {
   ArrowRight,
@@ -10,7 +10,6 @@ import {
   Building2,
   CalendarDays,
   GraduationCap,
-  Handshake,
   BookOpen,
   Menu,
   X,
@@ -50,6 +49,8 @@ import {
   FeatureCard,
   useMobilePerformanceMode,
 } from "../ui-kit";
+
+const coursePageUrl = "https://cursos.oceanoazuldrones.com.br/p/";
 
 const partnerBrands = [
   { name: "Agrovale", image: "/images/marcas/agrovale.png" },
@@ -1338,10 +1339,10 @@ export default function OceanoLandingPage({
         "Cuidados básicos com equipamento, bateria e missão",
       ],
       icon: GraduationCap,
-      image: coursePilotImage,
+      image: courseBannerImage,
     },
   ];
-  const coursePartnershipHighlights = [
+  const courseHighlights = [
     {
       title: "Formação de mão de obra qualificada",
       description:
@@ -1393,30 +1394,17 @@ export default function OceanoLandingPage({
   const newsItems = [
     {
       category: "Educação",
-      date: "09 fev. 2026",
-      title: "FUPAI e Oceano Azul lançam curso profissional de drones",
+      date: "Cursos e capacitação",
+      title: "Conheça a Oceano Azul Drones Academy",
       description:
-        "Parceria voltada à formação técnica, segurança operacional e uso profissional de drones em diferentes aplicações.",
-      href: "https://fupai.org.br/2026/02/fupai-e-oceano-azul-lancam-curso-de-pilotagem-de-drones-com-foco-em-uso-profissional-e-seguranca/",
-      sourceLabel: "FUPAI",
+        "A Oceano Azul tem sua própria página de cursos. Conheça nossa formação em pilotagem de drones e confira os detalhes na Oceano Azul Drones Academy.",
+      href: coursePageUrl,
+      sourceLabel: "Oceano Azul Drones Academy",
       media: {
         type: "image",
-        src: "https://fupai.org.br/wp-content/uploads/2026/02/capa_noticia_04.png",
-        alt: "Imagem de capa da notícia da FUPAI sobre o curso de drones",
-      },
-    },
-    {
-      category: "PDI",
-      date: "Ecossistema",
-      title: "Itajubá HardTech como ambiente de inovação aplicada",
-      description:
-        "Como parte do ecossistema Itajubá HardTech, a Oceano Azul integra a rede de inovação de alta complexidade, conectando-se a empresas, universidades e governo para transformar tecnologia em soluções reais.",
-      href: "https://www.itajubahardtech.com.br/",
-      sourceLabel: "Itajubá HardTech",
-      media: {
-        type: "image",
-        src: "https://www.itajubahardtech.com.br/wp-content/uploads/2026/01/O-maior-evento-de-TECNOLOGIA-E-INOVACAO-do-Sul-de-Minas-1.png",
-        alt: "Imagem oficial do ecossistema Itajubá HardTech",
+        src: "/images/oceano-azul-academy.png",
+        alt: "Logo da Oceano Azul na página oficial da Drones Academy",
+        className: "object-contain p-8",
       },
     },
   ];
@@ -2243,20 +2231,20 @@ export default function OceanoLandingPage({
           <div className="mx-auto mb-16 flex max-w-5xl flex-col items-center text-center">
             <Reveal width="100%">
               <span className="mb-6 inline-flex items-center gap-2 rounded-full border border-blue-100 bg-white px-3 py-1 text-xs font-bold uppercase tracking-wider text-blue-600">
-                <Handshake size={12} /> Aliança estratégica em favor da educação
+                <GraduationCap size={12} /> Oceano Azul Drones Academy
               </span>
             </Reveal>
             <Reveal delay={0.1} width="100%">
               <h2 className="mb-8 text-3xl font-extrabold leading-tight tracking-tight text-slate-900 sm:text-4xl md:text-6xl md:leading-[0.98]">
-                Dois gigantes se unem para formar e capacitar{" "}
-                <span className="text-blue-600">para o futuro</span>
+                Aprenda a pilotar drones{" "}
+                <span className="text-blue-600">com a Oceano Azul</span>
               </h2>
             </Reveal>
             <Reveal delay={0.2}>
               <p className="mx-auto max-w-3xl text-lg leading-relaxed text-slate-600 md:text-xl">
-                A experiência operacional da Oceano Azul se soma à tradição
-                educacional da FUPAI para criar capacitações conectadas às
-                demandas reais do campo, das cidades e da inovação.
+                A experiência operacional da Oceano Azul agora tem sua própria
+                página de cursos. Conheça nossa formação para pilotar drones com
+                segurança e atuar nas demandas reais do campo e das cidades.
               </p>
             </Reveal>
             <Reveal delay={0.25}>
@@ -2271,19 +2259,19 @@ export default function OceanoLandingPage({
             <div className="mx-auto mb-10 grid max-w-6xl overflow-hidden rounded-3xl border border-blue-100 bg-white shadow-sm md:grid-cols-[1fr_1.4fr]">
               <div className="flex flex-col justify-center bg-blue-600 p-7 text-white md:p-9">
                 <span className="mb-4 inline-flex w-fit items-center gap-2 rounded-full bg-white/15 px-3 py-1 text-xs font-bold uppercase tracking-wider text-white">
-                  <BookOpen size={12} /> Oceano Azul + FUPAI
+                  <BookOpen size={12} /> Cursos Oceano Azul
                 </span>
                 <h3 className="text-2xl font-extrabold leading-tight md:text-3xl">
-                  Uma parceria entre operação técnica e formação profissional.
+                  Experiência em campo que se transforma em formação.
                 </h3>
                 <p className="mt-4 text-sm leading-relaxed text-blue-50 md:text-base">
-                  A Oceano Azul leva a vivência prática das operações com
-                  drones. A FUPAI fortalece a base educacional para transformar
-                  esse conhecimento em capacitação estruturada e oportunidades.
+                  Aprenda com a vivência da Oceano Azul em operações com drones.
+                  Nossos cursos conectam conhecimento técnico, segurança e
+                  aplicações profissionais para preparar novos pilotos.
                 </p>
               </div>
               <div className="grid gap-4 p-6 sm:grid-cols-2 xl:grid-cols-4 md:p-7">
-                {coursePartnershipHighlights.map((item) => (
+                {courseHighlights.map((item) => (
                   <div
                     key={item.title}
                     className="rounded-2xl border border-slate-100 bg-slate-50 p-5"
@@ -2314,16 +2302,14 @@ export default function OceanoLandingPage({
                 className="h-full"
               >
                 <article className="mb-8 grid cursor-default overflow-hidden rounded-3xl border border-slate-200/60 bg-white shadow-sm transition-colors duration-300 hover:border-slate-300 hover:bg-slate-50/60 last:mb-0 lg:grid-cols-[1.05fr_0.95fr]">
-                  <div className="relative min-h-[18rem] overflow-hidden bg-sky-50 lg:min-h-[30rem]">
+                  <div className="relative flex items-center overflow-hidden bg-sky-50 lg:min-h-[30rem]">
                     {course.image ? (
-                      <div className="flex h-full items-center justify-center p-4">
+                      <div className="flex w-full items-center justify-center p-4">
                         <Image
                           src={course.image}
-                          alt={course.title}
-                          width={1066}
-                          height={1424}
-                          sizes="(min-width: 1024px) 45vw, 100vw"
-                          className="h-full w-auto max-w-full rounded-[1.5rem] object-contain shadow-sm"
+                          alt="Curso Profissional de Pilotagem de Drones da Oceano Azul, com piloto uniformizado e drone ao fundo"
+                          sizes="(min-width: 1280px) 560px, (min-width: 1024px) 50vw, 100vw"
+                          className="h-auto w-full rounded-[1.5rem] object-contain shadow-sm"
                         />
                       </div>
                     ) : (
@@ -2358,11 +2344,14 @@ export default function OceanoLandingPage({
                         </li>
                       ))}
                     </ul>
-                    <a href="#contato-oceano" className="w-full sm:w-fit">
-                      <button className="flex w-full items-center justify-center gap-2 rounded-full bg-blue-600 px-7 py-3 text-sm font-bold text-white shadow-lg shadow-blue-600/25 transition-all hover:bg-blue-700 sm:w-auto">
-                        Solicitar informações
-                        <ArrowRight size={16} />
-                      </button>
+                    <a
+                      href={coursePageUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex w-full items-center justify-center gap-2 rounded-full bg-blue-600 px-7 py-3 text-sm font-bold text-white shadow-lg shadow-blue-600/25 transition-all hover:bg-blue-700 sm:w-fit"
+                    >
+                      Conhecer o curso
+                      <ArrowUpRight size={16} />
                     </a>
                   </div>
                 </article>
@@ -2478,7 +2467,7 @@ export default function OceanoLandingPage({
             </Reveal>
           </div>
 
-          <div className="mx-auto grid max-w-5xl gap-6 md:grid-cols-2">
+          <div className="mx-auto grid max-w-xl gap-6">
             {newsItems.map((item, index) => (
               <Reveal
                 key={item.title}
@@ -2547,7 +2536,7 @@ export default function OceanoLandingPage({
                 alt={selectedNews.media.alt}
                 fill
                 sizes="(min-width: 1024px) 50vw, 100vw"
-                className="object-cover"
+                className={selectedNews.media.className}
               />
             </div>
 
